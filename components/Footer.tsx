@@ -10,7 +10,7 @@ const COMPANY_INFO = {
   address: "Dubai, United Arab Emirates",
   email: "commercial@simcolgroup.com",
   phone: "+971 50 466 8906", // TODO: replace with actual
-  established: "2022",
+  established: "2007",
 } as const;
 
 const FOOTER_LINKS = {
