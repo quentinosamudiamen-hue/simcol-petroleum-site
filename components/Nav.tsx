@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 /* ------------------------------------------------------------------ */
 
 const NAV_LINKS = [
+  { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
   { label: "Framework", href: "/transaction-framework" },
   { label: "Documentation", href: "/documentation" },
