@@ -7,51 +7,87 @@ export const metadata: Metadata = {
     "Buyer engagement and execution flow for export-focused refined product transactions.",
 };
 
+const buyerInputs = [
+  {
+    title: "Corporate & Authority",
+    items: [
+      "Legal company name, registration details, and operating address",
+      "Authorized signatory details + proof of authority",
+      "Beneficial ownership / directors (as required for KYB)",
+    ],
+  },
+  {
+    title: "Commercial Request",
+    items: [
+      "Product: Jet A-1 or AGO (WAF spec GO)",
+      "Quantity + preferred lifting structure (spot / term, if applicable)",
+      "Delivery basis: FOB or CIF + destination / discharge location",
+      "Loading window / timing requirements",
+    ],
+  },
+  {
+    title: "Compliance & Counterparty",
+    items: [
+      "End-buyer details (if applicable) + mandate confirmation",
+      "Sanctions/compliance alignment (jurisdiction + screening readiness)",
+      "Trade references (optional but helpful for first transaction)",
+    ],
+  },
+  {
+    title: "Financial Readiness",
+    items: [
+      "Banking pathway confirmation: LC / SBLC / PB (as required)",
+      "Proof of funds / bank comfort where applicable",
+      "Acknowledgement: any required PB/deposit is buyer responsibility",
+    ],
+  },
+];
+
 const steps = [
   {
     title: "Step 1 — Buyer Onboarding",
     body:
-      "Initial buyer introduction + corporate profile exchange. Buyer confirms mandate, end-user (if applicable), and target lift requirements.",
+      "Initial buyer introduction and corporate profile exchange. Buyer confirms mandate, end-user (if applicable), and target lifting requirements.",
   },
   {
     title: "Step 2 — KYC / KYB Documentation",
     body:
-      "Buyer submits KYC/KYB pack and confirms signatory authority. Documentation reviewed for compliance alignment.",
+      "Buyer submits KYB/KYC pack and confirms signatory authority. Documentation is reviewed for compliance alignment prior to commercial progression.",
   },
   {
     title: "Step 3 — Commercial Request Submission",
     body:
-      "Buyer submits product request (Jet A-1 or AGO/WAF spec GO), quantity, delivery basis (FOB/CIF), loading window, and destination.",
+      "Buyer submits a formal product request (Jet A-1 or AGO/WAF spec GO), quantity, delivery basis (FOB/CIF), loading window, and destination/discharge details.",
   },
   {
     title: "Step 4 — Refinery Engagement",
     body:
-      "Simcol engages refinery counterparty for allocation confirmation and required process steps (including performance bond / deposit requirements where applicable).",
+      "Simcol engages the refinery/seller counterparty to confirm process eligibility, allocation pathway (where applicable), and required preconditions. Buyer acknowledges that any required performance bond/prepayment/deposit is a condition precedent and remains the buyer’s responsibility.",
   },
   {
-    title: "Step 5 — Indicative Terms / Process Alignment",
+    title: "Step 5 — Indicative Process Alignment",
     body:
-      "If eligible to proceed, indicative commercial structure and process checkpoints are confirmed (documentation completeness, financial instrument pathway, timeline).",
+      "If eligible to proceed, parties align on process checkpoints: documentation completeness, compliance readiness, financial instrument pathway, and indicative timeline. (Commercial terms are not discussed until prerequisites are satisfied, where required by the seller/refinery.)",
   },
   {
     title: "Step 6 — Financial Instrument Readiness",
     body:
-      "Buyer confirms banking readiness and required financial instruments (e.g., PB / LC / SBLC where applicable) aligned to seller/refinery process.",
+      "Buyer confirms banking readiness and prepares required instruments (e.g., PB / LC / SBLC where applicable) in alignment with seller/refinery requirements and transaction basis (FOB/CIF).",
   },
   {
     title: "Step 7 — Contracting (SPA)",
     body:
-      "Parties proceed to Sale & Purchase Agreement (SPA) issuance/review. Execution timeline and obligations are confirmed in writing.",
+      "Parties proceed to SPA issuance and review. Execution timeline, obligations, and documentary requirements are confirmed in writing in accordance with seller/refinery process.",
   },
   {
     title: "Step 8 — Shipping & Logistics",
     body:
-      "Vessel nomination (if applicable), inspection protocol, shipping schedule, and discharge planning coordinated subject to transaction basis (FOB/CIF).",
+      "Vessel nomination (if applicable), inspection protocol, shipping schedule, and discharge planning are coordinated subject to transaction basis (FOB/CIF) and SPA terms.",
   },
   {
     title: "Step 9 — Loading, Documentation & Handover",
     body:
-      "Loading and documentation handover completed per SPA terms. Post-loading document package shared for banking and cargo release processes.",
+      "Loading and documentation handover are completed per SPA. Post-loading document package is shared for banking processing and cargo release workflows.",
   },
 ];
 
@@ -70,8 +106,47 @@ export default function TransactionFrameworkPage() {
             A structured, refinery-aligned engagement and execution flow for
             export-focused refined product transactions.
           </p>
+
+          <div className="mt-6 rounded-2xl border border-neutral-800 bg-neutral-900/25 p-6">
+            <p className="text-sm text-neutral-300">
+              This framework is intended to mirror institutional refinery and
+              banking discipline. Progression is conditional on documentation,
+              compliance alignment, and (where required) financial instrument
+              readiness.
+            </p>
+          </div>
         </header>
 
+        {/* Required Buyer Inputs */}
+        <section className="mb-10">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-base font-medium">Required Buyer Inputs</h2>
+              <p className="mt-1 text-sm text-neutral-300">
+                Submit the information below to accelerate eligibility review
+                and reduce execution friction.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {buyerInputs.map((block) => (
+              <div
+                key={block.title}
+                className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6"
+              >
+                <h3 className="text-sm font-medium">{block.title}</h3>
+                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-neutral-300">
+                  {block.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Steps */}
         <section className="grid gap-4">
           {steps.map((step, i) => (
             <div
@@ -92,16 +167,24 @@ export default function TransactionFrameworkPage() {
           ))}
         </section>
 
+        {/* Notes */}
         <footer className="mt-12 rounded-2xl border border-neutral-800 bg-neutral-900/25 p-6">
           <h3 className="text-sm font-medium">Important Notes</h3>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-neutral-300">
             <li>
-              This framework is provided for informational and execution planning
-              purposes only and does not constitute an offer.
+              This document is issued for preliminary commercial discussions and
+              execution planning only and does not constitute an offer, an
+              allocation commitment, or a binding agreement.
             </li>
             <li>
-              Specific transaction steps may vary depending on refinery/seller
-              requirements, jurisdiction, and counterparty readiness.
+              Transaction progression may be contingent on seller/refinery
+              prerequisites (including, where applicable, a performance bond,
+              deposit, or prepayment) prior to discussion of commercial terms or
+              issuance of any seller documents.
+            </li>
+            <li>
+              Specific steps may vary based on refinery/seller requirements,
+              jurisdiction, and counterparty readiness.
             </li>
             <li>
               Simcol operates as a physical trading counterparty supporting
