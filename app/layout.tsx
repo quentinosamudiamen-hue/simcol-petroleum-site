@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Suspense } from "react"; // ✅ ADD
+import { Suspense } from "react";
 import "./globals.css";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-
-/* ------------------------------------------------------------------ */
-/* FONTS                                                              */
-/* ------------------------------------------------------------------ */
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,10 +15,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-/* ------------------------------------------------------------------ */
-/* SITE CONFIGURATION                                                 */
-/* ------------------------------------------------------------------ */
 
 const SITE = {
   name: "Simcol Petroleum",
@@ -37,14 +29,7 @@ const SITE = {
   foundingDate: "2022-08-31",
   description:
     "Export-focused refined petroleum products trading via Dubai execution desk",
-  // Optional: add once you have these public URLs
-  // logoUrl: "https://www.simcolgroup.com/brand/simcol-logo.png",
-  // sameAs: ["https://www.linkedin.com/company/<your-page>"],
 } as const;
-
-/* ------------------------------------------------------------------ */
-/* METADATA                                                           */
-/* ------------------------------------------------------------------ */
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -79,14 +64,7 @@ export const metadata: Metadata = {
       "Export-focused refined petroleum products: Jet A-1 and AGO (WAF spec). Dubai execution desk for institutional buyer engagement.",
     siteName: SITE.name,
     locale: "en_US",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Simcol Petroleum — Dubai Execution Desk",
-      },
-    ],
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Simcol Petroleum — Dubai Execution Desk" }],
   },
 
   twitter: {
@@ -98,10 +76,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ url: "/favicon.ico" }, { url: "/icon.svg", type: "image/svg+xml" }],
     apple: "/apple-touch-icon.png",
   },
 
@@ -118,16 +93,7 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-
-  verification: {
-    // Add when you set up Google Search Console
-    // google: "your-verification-code",
-  },
 };
-
-/* ------------------------------------------------------------------ */
-/* STRUCTURED DATA                                                    */
-/* ------------------------------------------------------------------ */
 
 function generateStructuredData() {
   const orgId = `${SITE.url}/#organization`;
@@ -162,9 +128,6 @@ function generateStructuredData() {
         availableLanguage: ["en"],
       },
     ],
-    // Optional (enable once you have public links)
-    // logo: SITE.logoUrl,
-    // sameAs: SITE.sameAs,
   };
 
   const websiteJsonLd = {
@@ -176,7 +139,6 @@ function generateStructuredData() {
     description: SITE.description,
     inLanguage: "en",
     publisher: { "@id": orgId },
-    // If you don't have /search, remove this block.
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE.url}/search?q={search_term_string}`,
@@ -187,10 +149,6 @@ function generateStructuredData() {
   return { orgJsonLd, websiteJsonLd };
 }
 
-/* ------------------------------------------------------------------ */
-/* LAYOUT                                                             */
-/* ------------------------------------------------------------------ */
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -199,7 +157,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Schema.org structured data for SEO */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -213,27 +170,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
-        {/* Global background graphics (kept subtle; does not override page themes) */}
-        <div
-          className="pointer-events-none fixed inset-0 -z-10"
-          aria-hidden="true"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(46,204,113,0.06),transparent_55%)]" />
-          <div
-            className="absolute inset-0 opacity-[0.04]
-            [background-image:linear-gradient(to_right,rgba(255,255,255,0.35)_1px,transparent_1px),
-            linear-gradient(to_bottom,rgba(255,255,255,0.35)_1px,transparent_1px)]
-            [background-size:72px_72px]"
-          />
-          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black to-transparent" />
-        </div>
-
-        {/* ✅ FIX: Nav uses useSearchParams() so it MUST be wrapped in Suspense */}
+        {/* ✅ Nav uses useSearchParams -> Suspense */}
         <Suspense fallback={null}>
           <Nav />
         </Suspense>
 
-        {/* IMPORTANT: do NOT constrain pages here; home uses full-bleed. */}
         <main>{children}</main>
 
         <Footer />

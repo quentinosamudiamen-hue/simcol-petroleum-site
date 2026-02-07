@@ -8,25 +8,66 @@ body {
   height: 100%;
 }
 
-/* --------------------------------------------- */
-/* Global polish + safety                         */
-/* --------------------------------------------- */
-
 /* Better text rendering */
 html {
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
+
+  /* ✅ Hard base for Safari */
+  background: #000;
 }
 
 body {
   margin: 0;
-  background: var(--white);
+
+  /* ✅ PATCH: make body transparent so html background always shows */
+  background: transparent;
   color: var(--gray-900);
+
+  /* ✅ PATCH: iPhone-safe “graphics” as layered background-images */
+  background-image:
+    radial-gradient(ellipse at top, rgba(46, 204, 113, 0.10), rgba(0, 0, 0, 0) 55%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.10) 1px, transparent 1px);
+  background-size:
+    cover,
+    72px 72px,
+    72px 72px;
+  background-position:
+    top center,
+    top left,
+    top left;
+  background-repeat:
+    no-repeat,
+    repeat,
+    repeat;
+
+  /* Safari friendliness */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ✅ Bottom fade (more reliable than fixed layers on iOS) */
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 260px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+  z-index: 1;
+}
+
+/* keep your layout safe (nav/footer already high z-index in their own styles) */
+main {
+  position: relative;
+  z-index: 2;
 }
 
 /* Fixed nav: prevent anchor jumps hiding under header */
 :root {
-  scroll-padding-top: 90px; /* nav ~80px + a little breathing room */
+  scroll-padding-top: 90px;
 }
 
 /* Cleaner focus styles (keyboard users) */
