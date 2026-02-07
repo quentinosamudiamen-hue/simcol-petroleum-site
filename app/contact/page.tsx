@@ -2,20 +2,15 @@ import type { Metadata } from "next";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
-  title: "Buyer Submission Desk | Simcol Petroleum",
+  title: "Contact | Simcol Petroleum",
   description:
-    "Request submission access for export-focused refined product transactions via Simcol Petroleum Nigeria Limited (Dubai Execution Desk). Documentation-led, refinery-aligned engagement.",
-  alternates: { canonical: "/contact" },
-  openGraph: {
-    title: "Buyer Submission Desk | Simcol Petroleum",
-    description:
-      "Documentation-led buyer engagement for export-focused refined petroleum products. Dubai execution desk.",
-    url: "/contact",
-    siteName: "Simcol Petroleum",
-    type: "website",
-  },
+    "Buyer submission desk for export-focused refined product requests via Dubai execution desk.",
 };
 
 export default function ContactPage() {
-  return <ContactClient />;
+  return (
+    <main className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-28 pb-16">
+      <ContactClient />
+    </main>
+  );
 }

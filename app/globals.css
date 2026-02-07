@@ -3,50 +3,95 @@
 @tailwind components;
 @tailwind utilities;
 
+/* -------------------------------------------------- */
+/* Global height + base                               */
+/* -------------------------------------------------- */
+
 html,
 body {
   height: 100%;
 }
 
-/* Better text rendering */
+/* -------------------------------------------------- */
+/* Tokens (Tailwind “text-muted-foreground” support)  */
+/* -------------------------------------------------- */
+
+:root {
+  scroll-padding-top: 90px; /* nav ~80px + breathing room */
+  --muted-foreground: rgba(255, 255, 255, 0.7);
+}
+
+/* -------------------------------------------------- */
+/* Text rendering + Safari stability                  */
+/* -------------------------------------------------- */
+
 html {
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 
-  /* ✅ Hard base for Safari */
+  /* ✅ HARD BASE COLOR (Safari fallback) */
   background: #000;
 }
 
 body {
   margin: 0;
 
-  /* ✅ PATCH: make body transparent so html background always shows */
-  background: transparent;
-  color: var(--gray-900);
+  /* ✅ Allow html background to bleed through */
+  background-color: transparent;
 
-  /* ✅ PATCH: iPhone-safe “graphics” as layered background-images */
+  /* ✅ readable default text everywhere */
+  color: rgba(255, 255, 255, 0.88);
+
+  /* -------------------------------------------------- */
+  /* ✅ iOS-SAFE GRAPHICS (avoid iOS fixed-layer bugs)   */
+  /* -------------------------------------------------- */
+
   background-image:
-    radial-gradient(ellipse at top, rgba(46, 204, 113, 0.10), rgba(0, 0, 0, 0) 55%),
-    linear-gradient(to right, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.10) 1px, transparent 1px);
+    radial-gradient(
+      ellipse at top,
+      rgba(46, 204, 113, 0.10),
+      rgba(0, 0, 0, 0) 55%
+    ),
+    linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.10) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.10) 1px,
+      transparent 1px
+    );
+
   background-size:
     cover,
     72px 72px,
     72px 72px;
+
   background-position:
     top center,
     top left,
     top left;
+
   background-repeat:
     no-repeat,
     repeat,
     repeat;
 
-  /* Safari friendliness */
+  /* Safari text smoothing */
   -webkit-font-smoothing: antialiased;
 }
 
-/* ✅ Bottom fade (more reliable than fixed layers on iOS) */
+/* Links should remain readable (don’t default to blue-on-dark) */
+a {
+  color: inherit;
+}
+
+/* -------------------------------------------------- */
+/* ✅ Bottom fade — reliable on iOS                   */
+/* -------------------------------------------------- */
+/* PATCH: put fade BEHIND content & nav so it never “dims” pages */
+
 body::after {
   content: "";
   position: fixed;
@@ -55,33 +100,63 @@ body::after {
   bottom: 0;
   height: 260px;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
-  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
+  z-index: 0;
 }
 
-/* keep your layout safe (nav/footer already high z-index in their own styles) */
+/* -------------------------------------------------- */
+/* Background helpers referenced by layout.tsx        */
+/* -------------------------------------------------- */
+
+.simcol-bg-radial {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(46, 204, 113, 0.10),
+    rgba(0, 0, 0, 0) 55%
+  );
+}
+
+.simcol-bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: top left;
+}
+
+.simcol-bg-fade {
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+/* -------------------------------------------------- */
+/* Layer safety                                      */
+/* -------------------------------------------------- */
+
 main {
   position: relative;
   z-index: 2;
 }
 
-/* Fixed nav: prevent anchor jumps hiding under header */
-:root {
-  scroll-padding-top: 90px;
-}
+/* -------------------------------------------------- */
+/* UX polish                                         */
+/* -------------------------------------------------- */
 
-/* Cleaner focus styles (keyboard users) */
+/* Keyboard focus */
 :focus-visible {
   outline: 3px solid rgba(46, 204, 113, 0.65);
   outline-offset: 3px;
 }
 
-/* Selection color */
+/* Text selection */
 ::selection {
   background: rgba(46, 204, 113, 0.28);
 }
 
-/* Reduce motion support */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;

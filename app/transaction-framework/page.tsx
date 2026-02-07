@@ -114,7 +114,7 @@ const steps = [
 
 export default function TransactionFrameworkPage() {
   return (
-    <main className="min-h-screen bg-neutral-950 text-neutral-100">
+    <main className="relative z-10 bg-transparent max-w-4xl mx-auto px-6 py-16 space-y-14">
       <div className="mx-auto max-w-5xl px-6 py-14">
         <header className="mb-10">
           <p className="text-sm uppercase tracking-wide text-neutral-400">

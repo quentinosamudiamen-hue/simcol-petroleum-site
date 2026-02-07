@@ -64,7 +64,14 @@ export const metadata: Metadata = {
       "Export-focused refined petroleum products: Jet A-1 and AGO (WAF spec). Dubai execution desk for institutional buyer engagement.",
     siteName: SITE.name,
     locale: "en_US",
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Simcol Petroleum — Dubai Execution Desk" }],
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Simcol Petroleum — Dubai Execution Desk",
+      },
+    ],
   },
 
   twitter: {
@@ -76,7 +83,10 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/icon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
     apple: "/apple-touch-icon.png",
   },
 
@@ -157,6 +167,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* Schema.org structured data for SEO */}
         <Script
           id="ld-org"
           type="application/ld+json"
@@ -170,14 +181,24 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
-        {/* ✅ Nav uses useSearchParams -> Suspense */}
-        <Suspense fallback={null}>
-          <Nav />
-        </Suspense>
+        {/* ✅ Background layer */}
+        <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+          <div className="absolute inset-0 simcol-bg-radial" />
+          <div className="absolute inset-0 simcol-bg-grid opacity-[0.045]" />
+          <div className="absolute inset-x-0 bottom-0 h-64 simcol-bg-fade" />
+        </div>
 
-        <main>{children}</main>
+        {/* ✅ Content above background */}
+        <div className="relative z-10 min-h-screen">
+          <Suspense fallback={null}>
+            <Nav />
+          </Suspense>
 
-        <Footer />
+          {/* ✅ PATCH: global top padding so headings never hide under fixed nav */}
+          <main className="pt-24">{children}</main>
+
+          <Footer />
+        </div>
       </body>
     </html>
   );

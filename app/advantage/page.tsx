@@ -45,7 +45,7 @@ const proof = [
 
 export default function AdvantagePage() {
   return (
-    <main className="simcol-redesign">
+    <main className="relative z-10 bg-transparent max-w-4xl mx-auto px-6 py-16 space-y-14">
       <section className="simcol-section">
         <div className="simcol-container">
           <div className="simcol-section-header">

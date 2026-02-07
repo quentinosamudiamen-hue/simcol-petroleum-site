@@ -96,7 +96,7 @@ export default function CompliancePage() {
   const phoneHref = `tel:${COMPANY.phone.replace(/[^\d+]/g, "")}`;
 
   return (
-    <main className="simcol-redesign">
+    <main className="relative z-10 bg-transparent max-w-4xl mx-auto px-6 py-16 space-y-14">
       <section className="simcol-section">
         <div className="simcol-container">
           <div className="rounded-3xl border border-neutral-900 bg-neutral-950/40 p-10 md:p-14">

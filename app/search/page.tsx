@@ -34,7 +34,7 @@ export default async function SearchPage({
         });
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16 space-y-8">
+    <main className="relative z-10 bg-transparent max-w-4xl mx-auto px-6 py-16 space-y-14">
       <header className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight">Search</h1>
         <p className="text-muted-foreground">

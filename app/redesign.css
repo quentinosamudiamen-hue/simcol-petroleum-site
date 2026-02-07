@@ -16,11 +16,19 @@
   --gray-200: #e2e8f0;
   --gray-100: #f7fafc;
   --white: #ffffff;
+
+  /* ✅ DARK UI TOKENS (new) */
+  --panel: rgba(255, 255, 255, 0.06);
+  --panel-strong: rgba(255, 255, 255, 0.09);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --text: rgba(255, 255, 255, 0.90);
+  --text-muted: rgba(255, 255, 255, 0.70);
+  --text-dim: rgba(255, 255, 255, 0.55);
 }
 
 /* --------------------------------------------- */
 /* FIX #1: Full-bleed breakout utility            */
-/* (prevents the “centered narrow panel” look)    */
 /* --------------------------------------------- */
 .simcol-fullbleed {
   width: 100vw;
@@ -29,15 +37,18 @@
 }
 
 /* --------------------------------------------- */
-/* Page base                                      */
+/* Page base (✅ PATCH: do NOT force light theme)  */
 /* --------------------------------------------- */
 .simcol-redesign {
   width: 100%;
   max-width: none;
   font-family: var(--font-montserrat, system-ui, -apple-system, Segoe UI, Roboto, Arial);
-  color: var(--gray-900);
-  background: var(--white);
-  overflow-x: clip; /* stronger than hidden for full-bleed */
+
+  /* ✅ PATCH: inherit global dark theme */
+  color: inherit;
+  background: transparent;
+
+  overflow-x: clip;
 }
 
 /* --------------------------------------------- */
@@ -46,7 +57,7 @@
 .simcol-hero {
   position: relative;
   width: 100%;
-  min-height: calc(100vh - 80px); /* subtract nav height */
+  min-height: calc(100vh - 80px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,7 +65,6 @@
   margin-top: 80px;
 }
 
-/* Fix: ensure background really fills the hero */
 .simcol-hero-bg {
   position: absolute;
   inset: 0;
@@ -63,10 +73,9 @@
   background-size: cover;
   background-position: center;
   filter: grayscale(100%);
-  transform: scale(1.03); /* avoids tiny edge gaps on some screens */
+  transform: scale(1.03);
 }
 
-/* Fix: stronger overlay so white text stays readable everywhere */
 .simcol-hero-overlay {
   position: absolute;
   inset: 0;
@@ -76,20 +85,15 @@
     linear-gradient(135deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.78) 55%, rgba(0, 0, 0, 0.62) 100%);
 }
 
-/* NEW: subtle dots + premium noise (no DOM changes required) */
 .simcol-hero::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-
-  /* dot grid + gentle fade mask */
   background-image: radial-gradient(rgba(46, 204, 113, 0.22) 1px, transparent 1px);
   background-size: 22px 22px;
   opacity: 0.14;
-
-  /* concentrates the effect near top-left; fades outward */
   mask-image: radial-gradient(circle at 35% 35%, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 62%);
 }
 
@@ -157,7 +161,7 @@
   justify-content: center;
   gap: 2.25rem;
   margin-bottom: 2.6rem;
-  flex-wrap: wrap; /* Fix: stops awkward overflow on mid widths */
+  flex-wrap: wrap;
 }
 
 .simcol-hero-feature {
@@ -185,7 +189,7 @@
   display: flex;
   justify-content: center;
   gap: 1.25rem;
-  flex-wrap: wrap; /* Fix: buttons don’t push layout */
+  flex-wrap: wrap;
 }
 
 /* --------------------------------------------- */
@@ -198,7 +202,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-decoration: none;
-  border-radius: 10px; /* slightly more modern */
+  border-radius: 10px;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease, filter 0.18s ease;
   display: inline-flex;
   align-items: center;
@@ -239,34 +243,10 @@
 }
 
 /* --------------------------------------------- */
-/* Subtle animation polish (respects accessibility) */
-/* --------------------------------------------- */
-@media (prefers-reduced-motion: no-preference) {
-  .simcol-hero-label,
-  .simcol-hero h1,
-  .simcol-hero-subtitle,
-  .simcol-hero-features,
-  .simcol-hero-actions {
-    animation: simcolFadeUp 520ms ease-out both;
-  }
-
-  .simcol-hero-label { animation-delay: 60ms; }
-  .simcol-hero h1 { animation-delay: 120ms; }
-  .simcol-hero-subtitle { animation-delay: 180ms; }
-  .simcol-hero-features { animation-delay: 240ms; }
-  .simcol-hero-actions { animation-delay: 300ms; }
-
-  @keyframes simcolFadeUp {
-    from { opacity: 0; transform: translateY(14px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-}
-
-/* --------------------------------------------- */
 /* Info bar                                      */
 /* --------------------------------------------- */
 .simcol-info-bar {
-  background: var(--green-primary);
+  background: rgba(46, 204, 113, 0.92);
   padding: 2rem 3rem;
   position: relative;
   overflow: hidden;
@@ -317,8 +297,11 @@
   padding: 6rem 3rem;
 }
 
+/* ✅ PATCH: "gray" section becomes dark-friendly */
 .simcol-section.gray {
-  background: var(--gray-100);
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .simcol-container {
@@ -334,34 +317,35 @@
 .simcol-tag {
   display: inline-block;
   padding: 0.5rem 1.25rem;
-  background: var(--green-accent);
-  color: var(--green-dark);
+  background: rgba(171, 235, 198, 0.18);
+  color: var(--green-light);
   font-size: 0.75rem;
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 1rem;
   border-radius: 999px;
+  border: 1px solid rgba(46, 204, 113, 0.35);
 }
 
 .simcol-title {
   font-size: clamp(2rem, 3vw, 3rem);
   font-weight: 900;
-  color: var(--charcoal);
+  color: var(--text);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
 }
 
 .simcol-subtitle {
   font-size: 1.15rem;
-  color: var(--gray-700);
+  color: var(--text-muted);
   max-width: 780px;
   margin: 0 auto;
   line-height: 1.75;
 }
 
 /* --------------------------------------------- */
-/* Cards                                         */
+/* Cards (✅ PATCH: remove white cards)           */
 /* --------------------------------------------- */
 .simcol-grid-2 {
   display: grid;
@@ -370,13 +354,14 @@
 }
 
 .simcol-card {
-  background: var(--white);
-  border: 2px solid var(--gray-200);
+  background: var(--panel);
+  border: 1px solid var(--border);
   padding: 3rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
   border-radius: 16px;
+  backdrop-filter: blur(10px);
 }
 
 .simcol-card::before {
@@ -397,8 +382,8 @@
 }
 
 .simcol-card:hover {
-  border-color: rgba(46, 204, 113, 0.7);
-  box-shadow: 0 18px 48px rgba(46, 204, 113, 0.14);
+  border-color: rgba(46, 204, 113, 0.55);
+  box-shadow: 0 18px 48px rgba(46, 204, 113, 0.16);
   transform: translateY(-4px);
 }
 
@@ -413,19 +398,19 @@
 .simcol-card-title {
   font-size: 1.75rem;
   font-weight: 900;
-  color: var(--charcoal);
+  color: var(--text);
   margin-bottom: 1rem;
 }
 
 .simcol-card-desc {
   font-size: 1rem;
-  color: var(--gray-700);
+  color: var(--text-muted);
   line-height: 1.85;
   margin-bottom: 1.5rem;
 }
 
 .simcol-card-link {
-  color: var(--green-dark);
+  color: var(--green-light);
   text-decoration: none;
   font-weight: 900;
   font-size: 0.9rem;
@@ -442,9 +427,10 @@
 /* --------------------------------------------- */
 .simcol-cta {
   padding: 6rem 3rem;
-  background: linear-gradient(135deg, var(--charcoal) 0%, var(--black) 100%);
+  background: linear-gradient(135deg, rgba(20, 25, 35, 0.85) 0%, rgba(0, 0, 0, 0.9) 100%);
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .simcol-cta::before {
