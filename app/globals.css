@@ -1,3 +1,4 @@
+@import "./redesign.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,4 +8,44 @@ body {
   height: 100%;
 }
 
+/* --------------------------------------------- */
+/* Global polish + safety                         */
+/* --------------------------------------------- */
 
+/* Better text rendering */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--gray-900);
+}
+
+/* Fixed nav: prevent anchor jumps hiding under header */
+:root {
+  scroll-padding-top: 90px; /* nav ~80px + a little breathing room */
+}
+
+/* Cleaner focus styles (keyboard users) */
+:focus-visible {
+  outline: 3px solid rgba(46, 204, 113, 0.65);
+  outline-offset: 3px;
+}
+
+/* Selection color */
+::selection {
+  background: rgba(46, 204, 113, 0.28);
+}
+
+/* Reduce motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

@@ -1,174 +1,501 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-
-/* ------------------------------------------------------------------ */
-/* CONFIGURATION                                                      */
-/* ------------------------------------------------------------------ */
-
-const NAV_LINKS = [
-  { label: "About", href: "/about" },
-  { label: "Products", href: "/products" },
-  { label: "Framework", href: "/transaction-framework" },
-  { label: "Documentation", href: "/documentation" },
-  { label: "Contact", href: "/contact" },
-] as const;
-
-/* ------------------------------------------------------------------ */
-/* SUBCOMPONENTS                                                      */
-/* ------------------------------------------------------------------ */
-
-function Logo() {
-  return (
-    <Link href="/" className="group flex items-center gap-3">
-      {/* Text logo plate (Phase 1 placeholder) */}
-      <div className="flex h-9 items-center rounded-xl border border-neutral-800 bg-neutral-900/80 px-3 transition-colors group-hover:border-neutral-700">
-        <span className="text-[11px] font-semibold tracking-[0.18em] text-neutral-200">
-          SIMCOL
-        </span>
-      </div>
-
-      {/* Identity (hidden on mobile) */}
-      <div className="hidden leading-tight sm:block">
-        <span className="block text-sm font-semibold text-neutral-100">
-          Simcol Petroleum Nigeria Limited
-        </span>
-        <span className="block text-xs text-neutral-400">
-          Dubai Execution Desk
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-function DesktopNav() {
-  return (
-    <nav
-      className="hidden items-center gap-6 md:flex"
-      aria-label="Main navigation"
-    >
-      {NAV_LINKS.map((link) => (
-        <Link
-          key={link.href}
-          href={link.href}
-          className="rounded text-sm text-neutral-300 transition-colors hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
-        >
-          {link.label}
-        </Link>
-      ))}
-    </nav>
-  );
-}
-
-function MobileMenuButton({
-  isOpen,
-  onClick,
-}: {
-  isOpen: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="flex flex-col gap-1.5 rounded p-2 md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
-      aria-label={isOpen ? "Close menu" : "Open menu"}
-      aria-expanded={isOpen}
-      aria-controls="mobile-nav"
-    >
-      <span
-        className={`h-0.5 w-5 bg-neutral-300 transition-transform duration-300 ${
-          isOpen ? "translate-y-2 rotate-45" : ""
-        }`}
-      />
-      <span
-        className={`h-0.5 w-5 bg-neutral-300 transition-opacity duration-300 ${
-          isOpen ? "opacity-0" : ""
-        }`}
-      />
-      <span
-        className={`h-0.5 w-5 bg-neutral-300 transition-transform duration-300 ${
-          isOpen ? "-translate-y-2 -rotate-45" : ""
-        }`}
-      />
-    </button>
-  );
-}
-
-function MobileNav({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  if (!isOpen) return null;
-
-  return (
-    <nav
-      id="mobile-nav"
-      className="border-t border-neutral-900 py-4 md:hidden"
-      aria-label="Mobile navigation"
-    >
-      <div className="flex flex-col gap-1">
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={onClose}
-            className="rounded-lg px-3 py-2.5 text-sm text-neutral-300 transition-colors hover:bg-neutral-900 hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-700 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
-          >
-            {link.label}
-          </Link>
-        ))}
-      </div>
-    </nav>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* MAIN COMPONENT                                                     */
-/* ------------------------------------------------------------------ */
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+} from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Nav() {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const handleToggle = () => setIsOpen((v) => !v);
-  const handleClose = () => setIsOpen(false);
+  const [elevated, setElevated] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  // Scroll lock + Escape key handling
+  const urlQ = searchParams.get("q") ?? "";
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [mobileSearchQuery, setMobileSearchQuery] = useState("");
+
+  const links = useMemo(
+    () => [
+      { href: "/", label: "Home" },
+      { href: "/about", label: "About" },
+      { href: "/products", label: "Products" },
+      { href: "/transaction-framework", label: "Framework" },
+      { href: "/documentation", label: "Documentation" },
+      { href: "/contact", label: "Contact" },
+    ],
+    []
+  );
+
+  // Active link logic: supports nested routes
+  const isActiveHref = (href: string) => {
+    if (!pathname) return false;
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  // Keep inputs in sync with URL when user navigates (important!)
   useEffect(() => {
-    if (!isOpen) return;
+    if (pathname === "/search") {
+      // Defer state updates to avoid react-hooks/set-state-in-effect lint error
+      queueMicrotask(() => {
+        setSearchQuery(urlQ);
+        setMobileSearchQuery(urlQ);
+      });
+    }
+  }, [pathname, urlQ]);
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setIsOpen(false);
-      }
+  // Navbar elevation on scroll
+  useEffect(() => {
+    const onScroll = () => {
+      const next = window.scrollY > 50;
+      // Defer to avoid set-state-in-effect lint
+      queueMicrotask(() => setElevated(next));
     };
 
-    document.addEventListener("keydown", handleEscape);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    // Defer to avoid set-state-in-effect lint
+    queueMicrotask(() => setOpen(false));
+  }, [pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  // Close on ESC
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  // Media query injection (in effect; safe)
+  useEffect(() => {
+    if (document.getElementById("simcol-nav-mq")) return;
+
+    const style = document.createElement("style");
+    style.id = "simcol-nav-mq";
+    style.textContent = `
+      @media (max-width: 980px) {
+        nav ul.simcol-desktop-menu { display: none !important; }
+        nav form.simcol-desktop-search { display: none !important; }
+        nav button.simcol-hamburger { display: inline-flex !important; }
+      }
+      @media (max-width: 768px) {
+        nav.simcol-nav { padding: 1rem 1.5rem !important; }
+        .simcol-mobile-inner { padding: 0 1.5rem 1.25rem 1.5rem !important; }
+      }
+    `;
+    document.head.appendChild(style);
 
     return () => {
-      document.body.style.overflow = prevOverflow;
-      document.removeEventListener("keydown", handleEscape);
+      document.getElementById("simcol-nav-mq")?.remove();
     };
-  }, [isOpen]);
+  }, []);
+
+  // Always navigate to /search?q=... (even if already on /search)
+  const goSearch = (qRaw: string) => {
+    const q = qRaw.trim();
+    const nextUrl = q ? `/search?q=${encodeURIComponent(q)}` : `/search`;
+
+    if (pathname === "/search") {
+      router.replace(nextUrl);
+      router.refresh();
+    } else {
+      router.push(nextUrl);
+      router.refresh();
+    }
+  };
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    goSearch(searchQuery);
+  };
+
+  const handleMobileSearch = (e: FormEvent) => {
+    e.preventDefault();
+    setOpen(false);
+    goSearch(mobileSearchQuery);
+  };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-neutral-900 bg-neutral-950/95 backdrop-blur-sm">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="flex items-center justify-between py-4">
-          <Logo />
-          <DesktopNav />
-          <MobileMenuButton isOpen={isOpen} onClick={handleToggle} />
-        </div>
+    <>
+      <div style={navWrapperStyle(elevated)}>
+        <nav className="simcol-nav" style={navStyle} aria-label="Primary">
+          {/* Brand */}
+          <Link href="/" style={brandStyle} aria-label="Simcol Petroleum Home">
+            <div style={{ width: 50, height: 50 }}>
+              <img
+                alt="SIMCOL"
+                style={{ width: "100%", height: "100%" }}
+                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='globe' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' style='stop-color:%232ECC71;stop-opacity:0.2' /%3E%3Cstop offset='100%25' style='stop-color:%2327AE60;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='url(%23globe)' stroke-width='1' /%3E%3Ccircle cx='30' cy='25' r='3' fill='%232ECC71' /%3E%3Ccircle cx='45' cy='30' r='2.5' fill='%2327AE60' /%3E%3Ccircle cx='60' cy='28' r='3' fill='%232ECC71' /%3E%3Ccircle cx='70' cy='40' r='2.5' fill='%2358D68D' /%3E%3Ccircle cx='65' cy='55' r='3' fill='%232ECC71' /%3E%3Ccircle cx='50' cy='60' r='2.5' fill='%2327AE60' /%3E%3Ccircle cx='35' cy='65' r='3' fill='%232ECC71' /%3E%3Ccircle cx='25' cy='50' r='2.5' fill='%2358D68D' /%3E%3Ccircle cx='40' cy='45' r='2' fill='%232ECC71' /%3E%3C/svg%3E"
+              />
+            </div>
 
-        <MobileNav isOpen={isOpen} onClose={handleClose} />
+            <div style={{ lineHeight: 1.1 }}>
+              <div style={brandTitleStyle}>Simcol Petroleum Nigeria Limited</div>
+              <div style={brandSubStyle}>Dubai Execution Desk</div>
+            </div>
+          </Link>
+
+          {/* Desktop links */}
+          <ul className="simcol-desktop-menu" style={desktopMenuStyle}>
+            {links.map((l) => {
+              const isActive = isActiveHref(l.href);
+              return (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    style={desktopLinkStyle(isActive)}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {l.label}
+                    {isActive ? <span style={activeUnderline} /> : null}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Right: desktop search + hamburger */}
+          <div style={rightSideStyle}>
+            <form
+              className="simcol-desktop-search"
+              onSubmit={handleSearch}
+              style={{ display: "flex", gap: 8 }}
+              role="search"
+              aria-label="Site search"
+            >
+              <input
+                type="search"
+                placeholder="Search…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={searchStyle}
+                aria-label="Search"
+              />
+            </form>
+
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              className="simcol-hamburger"
+              style={hamburgerBtnStyle}
+            >
+              <span style={srOnly}>Menu</span>
+              <HamburgerIcon open={open} />
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile panel */}
+        <div
+          id="mobile-menu"
+          style={{
+            ...mobilePanelStyle,
+            maxHeight: open ? 620 : 0,
+            opacity: open ? 1 : 0,
+            pointerEvents: open ? "auto" : "none",
+          }}
+          aria-hidden={!open}
+        >
+          <div className="simcol-mobile-inner" style={mobileInnerStyle}>
+            <form
+              onSubmit={handleMobileSearch}
+              style={{ marginBottom: 12 }}
+              role="search"
+              aria-label="Site search (mobile)"
+            >
+              <input
+                type="search"
+                placeholder="Search…"
+                value={mobileSearchQuery}
+                onChange={(e) => setMobileSearchQuery(e.target.value)}
+                style={mobileSearchStyle}
+                aria-label="Search"
+              />
+            </form>
+
+            <div style={mobileLinksWrapStyle}>
+              {links.map((l) => {
+                const isActive = isActiveHref(l.href);
+                return (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    style={mobileLinkStyle(isActive)}
+                    onClick={() => setOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {l.label}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div style={{ marginTop: 14 }}>
+              <Link
+                href="/contact"
+                style={mobileCtaStyle}
+                onClick={() => setOpen(false)}
+              >
+                Submit Buyer Request
+              </Link>
+            </div>
+
+            <div style={mobileMetaStyle}>
+              Export-only refined products • Institutional buyer engagement •
+              Dubai execution
+            </div>
+          </div>
+        </div>
       </div>
-    </header>
+
+      {/* Backdrop */}
+      <div
+        onClick={() => setOpen(false)}
+        style={{
+          ...backdropStyle,
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? "auto" : "none",
+        }}
+        aria-hidden={!open}
+      />
+    </>
   );
 }
+
+function HamburgerIcon({ open }: { open: boolean }) {
+  const lineBase: CSSProperties = {
+    display: "block",
+    height: 2,
+    width: 22,
+    background: "#E5E7EB",
+    borderRadius: 999,
+    transition: "transform 180ms ease, opacity 180ms ease",
+  };
+
+  return (
+    <span style={{ display: "grid", gap: 5 }}>
+      <span
+        style={{
+          ...lineBase,
+          transform: open ? "translateY(7px) rotate(45deg)" : "none",
+        }}
+      />
+      <span style={{ ...lineBase, opacity: open ? 0 : 1 }} />
+      <span
+        style={{
+          ...lineBase,
+          transform: open ? "translateY(-7px) rotate(-45deg)" : "none",
+        }}
+      />
+    </span>
+  );
+}
+
+/* -------------------- styles (inline) -------------------- */
+
+const navWrapperStyle = (elevated: boolean): CSSProperties => ({
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  background: "rgba(0,0,0,0.55)",
+  backdropFilter: "blur(14px)",
+  boxShadow: elevated
+    ? "0 10px 30px rgba(0,0,0,0.35)"
+    : "0 6px 18px rgba(0,0,0,0.25)",
+  transition: "all 0.25s ease",
+});
+
+const navStyle: CSSProperties = {
+  maxWidth: 1400,
+  margin: "0 auto",
+  padding: "1.15rem 3rem",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: "1rem",
+};
+
+const brandStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "0.9rem",
+  textDecoration: "none",
+};
+
+const brandTitleStyle: CSSProperties = {
+  fontSize: "0.95rem",
+  fontWeight: 700,
+  letterSpacing: "-0.01em",
+  color: "#FFFFFF",
+};
+
+const brandSubStyle: CSSProperties = {
+  fontSize: "0.75rem",
+  fontWeight: 500,
+  letterSpacing: "0.12em",
+  color: "rgba(255,255,255,0.70)",
+  textTransform: "uppercase",
+};
+
+const desktopMenuStyle: CSSProperties = {
+  display: "flex",
+  gap: "1.65rem",
+  listStyle: "none",
+  alignItems: "center",
+  margin: 0,
+  padding: 0,
+};
+
+const desktopLinkStyle = (isActive: boolean): CSSProperties => ({
+  color: isActive ? "#2ECC71" : "rgba(255,255,255,0.82)",
+  textDecoration: "none",
+  fontSize: "0.78rem",
+  fontWeight: 700,
+  textTransform: "uppercase",
+  letterSpacing: "0.12em",
+  whiteSpace: "nowrap",
+  position: "relative",
+});
+
+const activeUnderline: CSSProperties = {
+  position: "absolute",
+  left: 0,
+  right: 0,
+  bottom: -10,
+  height: 2,
+  background: "#2ECC71",
+  borderRadius: 999,
+};
+
+const rightSideStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 10,
+};
+
+const searchStyle: CSSProperties = {
+  padding: "0.55rem 0.85rem",
+  border: "1px solid rgba(255,255,255,0.15)",
+  background: "rgba(0,0,0,0.25)",
+  color: "#fff",
+  borderRadius: 10,
+  fontSize: "0.85rem",
+  width: 220,
+  outline: "none",
+};
+
+const hamburgerBtnStyle: CSSProperties = {
+  appearance: "none",
+  border: "1px solid rgba(255,255,255,0.12)",
+  background: "rgba(0,0,0,0.25)",
+  borderRadius: 12,
+  padding: "0.65rem 0.7rem",
+  display: "none",
+  cursor: "pointer",
+};
+
+const srOnly: CSSProperties = {
+  position: "absolute",
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  borderWidth: 0,
+};
+
+const mobilePanelStyle: CSSProperties = {
+  maxWidth: 1400,
+  margin: "0 auto",
+  overflow: "hidden",
+  transition: "max-height 220ms ease, opacity 220ms ease",
+};
+
+const mobileInnerStyle: CSSProperties = {
+  padding: "0 3rem 1.25rem 3rem",
+};
+
+const mobileSearchStyle: CSSProperties = {
+  width: "100%",
+  padding: "0.85rem 1rem",
+  border: "1px solid rgba(255,255,255,0.12)",
+  background: "rgba(0,0,0,0.25)",
+  color: "#fff",
+  borderRadius: 12,
+  fontSize: "0.95rem",
+  outline: "none",
+};
+
+const mobileLinksWrapStyle: CSSProperties = {
+  display: "grid",
+  gap: 10,
+};
+
+const mobileLinkStyle = (isActive: boolean): CSSProperties => ({
+  textDecoration: "none",
+  color: isActive ? "#2ECC71" : "rgba(255,255,255,0.92)",
+  fontWeight: 800,
+  padding: "0.95rem 0.95rem",
+  borderRadius: 14,
+  border: `1px solid ${
+    isActive ? "rgba(46,204,113,0.35)" : "rgba(255,255,255,0.10)"
+  }`,
+  background: "rgba(0,0,0,0.22)",
+});
+
+const mobileCtaStyle: CSSProperties = {
+  display: "block",
+  textAlign: "center",
+  textDecoration: "none",
+  background: "#2ECC71",
+  color: "#0B0F10",
+  fontWeight: 900,
+  padding: "1rem 1rem",
+  borderRadius: 14,
+};
+
+const mobileMetaStyle: CSSProperties = {
+  marginTop: 12,
+  fontSize: "0.8rem",
+  color: "rgba(255,255,255,0.70)",
+};
+
+const backdropStyle: CSSProperties = {
+  position: "fixed",
+  inset: 0,
+  background: "rgba(0,0,0,0.45)",
+  zIndex: 999,
+  transition: "opacity 200ms ease",
+};

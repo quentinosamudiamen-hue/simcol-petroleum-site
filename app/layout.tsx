@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react"; // ✅ ADD
 import "./globals.css";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
@@ -69,6 +70,7 @@ export const metadata: Metadata = {
   creator: SITE.legalName,
   publisher: SITE.legalName,
   alternates: { canonical: "/" },
+
   openGraph: {
     type: "website",
     url: SITE.url,
@@ -77,13 +79,34 @@ export const metadata: Metadata = {
       "Export-focused refined petroleum products: Jet A-1 and AGO (WAF spec). Dubai execution desk for institutional buyer engagement.",
     siteName: SITE.name,
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Simcol Petroleum — Dubai Execution Desk",
+      },
+    ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "Simcol Petroleum | Dubai Execution Desk",
     description:
       "Export-focused refined petroleum products trading via Dubai execution desk",
+    images: ["/og-image.jpg"],
   },
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+
+  manifest: "/manifest.json",
+
   robots: {
     index: true,
     follow: true,
@@ -95,6 +118,7 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+
   verification: {
     // Add when you set up Google Search Console
     // google: "your-verification-code",
@@ -173,10 +197,8 @@ export default function RootLayout({
   const { orgJsonLd, websiteJsonLd } = generateStructuredData();
 
   return (
-    <html lang="en" className="scroll-smooth">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950 text-neutral-100`}
-      >
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Schema.org structured data for SEO */}
         <Script
           id="ld-org"
@@ -191,28 +213,29 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
 
-        {/* Global background graphics */}
+        {/* Global background graphics (kept subtle; does not override page themes) */}
         <div
           className="pointer-events-none fixed inset-0 -z-10"
           aria-hidden="true"
         >
-          {/* Subtle green radial gradient at top */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,197,94,0.07),transparent_55%)]" />
-
-          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(46,204,113,0.06),transparent_55%)]" />
           <div
-            className="absolute inset-0 opacity-[0.05]
-            [background-image:linear-gradient(to_right,rgba(255,255,255,0.4)_1px,transparent_1px),
-            linear-gradient(to_bottom,rgba(255,255,255,0.4)_1px,transparent_1px)]
+            className="absolute inset-0 opacity-[0.04]
+            [background-image:linear-gradient(to_right,rgba(255,255,255,0.35)_1px,transparent_1px),
+            linear-gradient(to_bottom,rgba(255,255,255,0.35)_1px,transparent_1px)]
             [background-size:72px_72px]"
           />
-
-          {/* Bottom fade to background */}
-          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-neutral-950 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black to-transparent" />
         </div>
 
-        <Nav />
-        <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
+        {/* ✅ FIX: Nav uses useSearchParams() so it MUST be wrapped in Suspense */}
+        <Suspense fallback={null}>
+          <Nav />
+        </Suspense>
+
+        {/* IMPORTANT: do NOT constrain pages here; home uses full-bleed. */}
+        <main>{children}</main>
+
         <Footer />
       </body>
     </html>

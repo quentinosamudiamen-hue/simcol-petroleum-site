@@ -6,10 +6,10 @@ import Link from "next/link";
 
 const COMPANY_INFO = {
   legalName: "Simcol Petroleum Nigeria Limited",
-  registrationNumber: "RC 1969739", // TODO: replace with actual
+  registrationNumber: "RC 1969739",
   address: "Dubai, United Arab Emirates",
   email: "commercial@simcolgroup.com",
-  phone: "+971 50 466 8906", // TODO: replace with actual
+  phone: "+971 50 466 8906",
   established: "2007",
 } as const;
 
@@ -47,7 +47,8 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-neutral-900 bg-neutral-950">
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      {/* IMPORTANT: don't constrain to max-w-6xl; keep consistent with full-bleed pages */}
+      <div className="mx-auto max-w-7xl px-6 py-12">
         {/* Main footer content */}
         <div className="grid gap-10 md:grid-cols-4">
           {/* Company Info */}
@@ -62,7 +63,9 @@ export default function Footer() {
               {COMPANY_INFO.legalName}
             </p>
             <p className="mt-2 text-sm text-neutral-500">Dubai Execution Desk</p>
-            <p className="mt-4 text-xs text-neutral-500">Est. {COMPANY_INFO.established}</p>
+            <p className="mt-4 text-xs text-neutral-500">
+              Est. {COMPANY_INFO.established}
+            </p>
 
             {/* Quick links */}
             <div className="mt-6 flex flex-col gap-2">
@@ -70,7 +73,7 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-neutral-300 transition-colors hover:text-neutral-100"
+                  className="text-sm text-neutral-300 transition-colors hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
                 >
                   {link.label}
                 </Link>
@@ -88,7 +91,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-neutral-300 transition-colors hover:text-neutral-100"
+                    className="text-sm text-neutral-300 transition-colors hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
                   >
                     {link.label}
                   </Link>
@@ -107,7 +110,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-neutral-300 transition-colors hover:text-neutral-100"
+                    className="text-sm text-neutral-300 transition-colors hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
                   >
                     {link.label}
                   </Link>
@@ -126,14 +129,17 @@ export default function Footer() {
               <li>
                 <a
                   href={`mailto:${COMPANY_INFO.email}`}
-                  className="transition-colors hover:text-neutral-100"
+                  className="transition-colors hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
                 >
                   {COMPANY_INFO.email}
                 </a>
               </li>
 
               <li>
-                <a href={phoneHref} className="transition-colors hover:text-neutral-100">
+                <a
+                  href={phoneHref}
+                  className="transition-colors hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
                   {COMPANY_INFO.phone}
                 </a>
               </li>
@@ -143,7 +149,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Scope & Disclaimer */}
+        {/* Scope & Notice */}
         <div className="mt-10 rounded-2xl border border-neutral-900 bg-neutral-950/40 p-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div>

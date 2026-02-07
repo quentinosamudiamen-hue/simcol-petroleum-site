@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const COMPANY = {
   legalName: "Simcol Petroleum Nigeria Limited",
   registration: "RC 1969739",
-  established: "2022",
+  established: "2007",
   desk: "Dubai Execution Desk",
   email: "commercial@simcolgroup.com",
   phone: "+971 50 466 8906",
@@ -92,127 +92,143 @@ function Block({
 /* ------------------------------------------------------------------ */
 
 export default function CompliancePage() {
-  const lastUpdated = "February 6, 2026"; // Update this when you make changes
+  const lastUpdated = "February 7, 2026"; // Update this when you make changes
   const phoneHref = `tel:${COMPANY.phone.replace(/[^\d+]/g, "")}`;
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-16">
-      <div className="rounded-3xl border border-neutral-900 bg-neutral-950/40 p-10 md:p-14">
-        <p className="text-xs uppercase tracking-[0.22em] text-neutral-400">
-          Compliance & Legal Notice
-        </p>
-
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-100 md:text-5xl">
-          Commercial Disclaimers & Engagement Standards
-        </h1>
-
-        <p className="mt-4 max-w-3xl text-base leading-relaxed text-neutral-300 md:text-lg">
-          This page sets out compliance posture and legal notices for{" "}
-          {COMPANY.legalName} ({COMPANY.registration}), operating via the{" "}
-          {COMPANY.desk}.
-        </p>
-
-        <div className="mt-8 grid gap-4 rounded-2xl border border-neutral-900 bg-neutral-950/60 p-6 md:grid-cols-3">
-          <div>
-            <p className="text-xs uppercase tracking-wide text-neutral-400">
-              Legal Entity
+    <main className="simcol-redesign">
+      <section className="simcol-section">
+        <div className="simcol-container">
+          <div className="rounded-3xl border border-neutral-900 bg-neutral-950/40 p-10 md:p-14">
+            <p className="text-xs uppercase tracking-[0.22em] text-neutral-400">
+              Compliance &amp; Legal Notice
             </p>
-            <p className="mt-1 text-sm font-semibold text-neutral-100">
-              {COMPANY.legalName}
+
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-100 md:text-5xl">
+              Commercial Disclaimers &amp; Engagement Standards
+            </h1>
+
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-neutral-300 md:text-lg">
+              This page sets out compliance posture and legal notices for{" "}
+              {COMPANY.legalName} ({COMPANY.registration}), operating via the{" "}
+              {COMPANY.desk}.
             </p>
+
+            <div className="mt-8 grid gap-4 rounded-2xl border border-neutral-900 bg-neutral-950/60 p-6 md:grid-cols-3">
+              <div>
+                <p className="text-xs uppercase tracking-wide text-neutral-400">
+                  Legal Entity
+                </p>
+                <p className="mt-1 text-sm font-semibold text-neutral-100">
+                  {COMPANY.legalName}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs uppercase tracking-wide text-neutral-400">
+                  Registration
+                </p>
+                <p className="mt-1 text-sm font-semibold text-neutral-100">
+                  {COMPANY.registration}
+                </p>
+                <p className="mt-1 text-xs text-neutral-500">
+                  Est. {COMPANY.established}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs uppercase tracking-wide text-neutral-400">
+                  Contact
+                </p>
+                <p className="mt-1 text-sm text-neutral-100">
+                  <a
+                    className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                    href={`mailto:${COMPANY.email}`}
+                  >
+                    {COMPANY.email}
+                  </a>
+                  <br />
+                  <a
+                    className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                    href={phoneHref}
+                  >
+                    {COMPANY.phone}
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            {/* Compliance Sections */}
+            <div className="mt-10 space-y-6">
+              {COMPLIANCE_SECTIONS.map((section) => (
+                <Block key={section.title} title={section.title}>
+                  {section.content}
+                </Block>
+              ))}
+            </div>
+
+            {/* Last Updated */}
+            <div className="mt-8 rounded-2xl border border-neutral-900 bg-neutral-950/60 p-4 text-center">
+              <p className="text-xs text-neutral-500">
+                Last Updated: {lastUpdated}
+              </p>
+            </div>
+
+            {/* Contact for Questions */}
+            <div className="mt-8 rounded-2xl border border-neutral-900 bg-neutral-950/50 p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-neutral-400">
+                Questions about compliance?
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-300">
+                For specific questions regarding compliance requirements,
+                documentation standards, or legal terms, please contact our
+                commercial desk at{" "}
+                <a
+                  href={`mailto:${COMPANY.email}`}
+                  className="text-neutral-100 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
+                  {COMPANY.email}
+                </a>{" "}
+                or{" "}
+                <a
+                  href={phoneHref}
+                  className="text-neutral-100 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
+                  {COMPANY.phone}
+                </a>
+                .
+              </p>
+            </div>
+
+            {/* Helpful Links */}
+            <div className="mt-8 rounded-2xl border border-neutral-900 bg-neutral-950/50 p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-neutral-400">
+                Helpful Links
+              </p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                <Link
+                  href="/transaction-framework"
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-800 bg-neutral-950 px-5 py-2.5 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
+                  Transaction Framework
+                </Link>
+                <Link
+                  href="/documentation"
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-800 bg-neutral-950 px-5 py-2.5 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
+                  Buyer Documentation
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center rounded-xl border border-neutral-700 bg-neutral-100 px-5 py-2.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950"
+                >
+                  Contact / Submit Request
+                </Link>
+              </div>
+            </div>
           </div>
-
-          <div>
-            <p className="text-xs uppercase tracking-wide text-neutral-400">
-              Registration
-            </p>
-            <p className="mt-1 text-sm font-semibold text-neutral-100">
-              {COMPANY.registration}
-            </p>
-            <p className="mt-1 text-xs text-neutral-500">
-              Est. {COMPANY.established}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-xs uppercase tracking-wide text-neutral-400">
-              Contact
-            </p>
-            <p className="mt-1 text-sm text-neutral-100">
-              <a className="hover:underline" href={`mailto:${COMPANY.email}`}>
-                {COMPANY.email}
-              </a>
-              <br />
-              <a className="hover:underline" href={phoneHref}>
-                {COMPANY.phone}
-              </a>
-            </p>
-          </div>
         </div>
-
-        {/* Compliance Sections */}
-        <div className="mt-10 space-y-6">
-          {COMPLIANCE_SECTIONS.map((section) => (
-            <Block key={section.title} title={section.title}>
-              {section.content}
-            </Block>
-          ))}
-        </div>
-
-        {/* Last Updated */}
-        <div className="mt-8 rounded-2xl border border-neutral-900 bg-neutral-950/60 p-4 text-center">
-          <p className="text-xs text-neutral-500">Last Updated: {lastUpdated}</p>
-        </div>
-
-        {/* Contact for Questions */}
-        <div className="mt-8 rounded-2xl border border-neutral-900 bg-neutral-950/50 p-6">
-          <p className="text-xs uppercase tracking-[0.22em] text-neutral-400">
-            Questions about compliance?
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-300">
-            For specific questions regarding compliance requirements, documentation
-            standards, or legal terms, please contact our commercial desk at{" "}
-            <a
-              href={`mailto:${COMPANY.email}`}
-              className="text-neutral-100 hover:underline"
-            >
-              {COMPANY.email}
-            </a>{" "}
-            or{" "}
-            <a href={phoneHref} className="text-neutral-100 hover:underline">
-              {COMPANY.phone}
-            </a>
-            .
-          </p>
-        </div>
-
-        {/* Helpful Links */}
-        <div className="mt-8 rounded-2xl border border-neutral-900 bg-neutral-950/50 p-6">
-          <p className="text-xs uppercase tracking-[0.22em] text-neutral-400">
-            Helpful Links
-          </p>
-          <div className="mt-3 flex flex-wrap gap-3">
-            <Link
-              href="/transaction-framework"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-800 bg-neutral-950 px-5 py-2.5 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-900"
-            >
-              Transaction Framework
-            </Link>
-            <Link
-              href="/documentation"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-800 bg-neutral-950 px-5 py-2.5 text-sm font-medium text-neutral-100 transition-colors hover:bg-neutral-900"
-            >
-              Buyer Documentation
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-xl border border-neutral-700 bg-neutral-100 px-5 py-2.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-white"
-            >
-              Contact / Submit Request
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }

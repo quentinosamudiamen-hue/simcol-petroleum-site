@@ -1,11 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+/* ------------------------------------------------------------------ */
+/* METADATA                                                           */
+/* ------------------------------------------------------------------ */
+
 export const metadata: Metadata = {
   title: "Transaction Framework | Simcol Petroleum",
   description:
-    "Buyer engagement and execution flow for export-focused refined product transactions.",
+    "Refinery-aligned buyer engagement and execution flow for export-focused refined product transactions via Simcol Petroleum Nigeria Limited (Dubai Execution Desk).",
+  alternates: { canonical: "/transaction-framework" },
+  openGraph: {
+    title: "Transaction Framework | Simcol Petroleum",
+    description:
+      "Refinery-aligned buyer engagement and execution flow for export-focused refined product transactions.",
+    url: "/transaction-framework",
+    type: "website",
+    siteName: "Simcol Petroleum",
+  },
 };
+
+/* ------------------------------------------------------------------ */
+/* DATA                                                               */
+/* ------------------------------------------------------------------ */
 
 const buyerInputs = [
   {
@@ -41,7 +58,7 @@ const buyerInputs = [
       "Acknowledgement: any required PB/deposit is buyer responsibility",
     ],
   },
-];
+] as const;
 
 const steps = [
   {
@@ -89,7 +106,11 @@ const steps = [
     body:
       "Loading and documentation handover are completed per SPA. Post-loading document package is shared for banking processing and cargo release workflows.",
   },
-];
+] as const;
+
+/* ------------------------------------------------------------------ */
+/* PAGE                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function TransactionFrameworkPage() {
   return (
@@ -141,6 +162,12 @@ export default function TransactionFrameworkPage() {
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
+
+                {/* Patch: add a quiet “why it matters” note for institutional tone */}
+                <p className="mt-4 text-xs leading-relaxed text-neutral-500">
+                  Purpose: reduce compliance friction and enable faster refinery/seller
+                  eligibility confirmation.
+                </p>
               </div>
             ))}
           </div>
@@ -193,10 +220,12 @@ export default function TransactionFrameworkPage() {
           </ul>
         </footer>
 
-        {/* CTA (must stay INSIDE the main container) */}
+        {/* CTA */}
         <div className="mt-10 flex flex-col gap-3 rounded-2xl border border-neutral-800 bg-neutral-900/25 p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h3 className="text-sm font-medium">Ready to submit a buyer request?</h3>
+            <h3 className="text-sm font-medium">
+              Ready to submit a buyer request?
+            </h3>
             <p className="mt-1 text-sm text-neutral-300">
               Proceed to the Dubai execution desk checklist and contact details.
             </p>

@@ -1,11 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+/* ------------------------------------------------------------------ */
+/* METADATA                                                           */
+/* ------------------------------------------------------------------ */
+
 export const metadata: Metadata = {
   title: "Documentation | Simcol Petroleum",
   description:
-    "Buyer submission requirements, readiness items, and process notes for export-focused refined product transactions.",
+    "Buyer submission requirements, readiness items, and process notes for export-focused refined product transactions via Simcol Petroleum Nigeria Limited (Dubai Execution Desk).",
+  alternates: { canonical: "/documentation" },
+  openGraph: {
+    title: "Documentation | Simcol Petroleum",
+    description:
+      "Buyer submission requirements, readiness items, and process notes for export-focused refined product transactions.",
+    url: "/documentation",
+    type: "website",
+    siteName: "Simcol Petroleum",
+  },
 };
+
+/* ------------------------------------------------------------------ */
+/* DATA                                                               */
+/* ------------------------------------------------------------------ */
 
 const checklist = [
   {
@@ -51,7 +68,7 @@ const checklist = [
       "Company letterhead confirmation of instrument readiness (where applicable)",
     ],
   },
-];
+] as const;
 
 const processNotes = [
   {
@@ -65,11 +82,20 @@ const processNotes = [
       "Commercial discussions typically proceed only once the counterparty’s documentation pack and baseline banking readiness are confirmed. This reduces execution delays and aligns with refinery/seller process discipline.",
   },
   {
+    title: "Secure Handling",
+    body:
+      "Sensitive documents are submitted only after desk approval via a secure, time-limited submission pathway. Do not upload confidential materials via public forms or third-party links unless instructed by the desk.",
+  },
+  {
     title: "Process Variability",
     body:
       "Specific requirements may vary by refinery, jurisdiction, delivery basis, and transaction size. Final steps are confirmed during refinery engagement and SPA alignment.",
   },
-];
+] as const;
+
+/* ------------------------------------------------------------------ */
+/* PAGE                                                               */
+/* ------------------------------------------------------------------ */
 
 export default function DocumentationPage() {
   return (
@@ -81,13 +107,19 @@ export default function DocumentationPage() {
             Simcol Petroleum Nigeria Limited
           </p>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight">
-            Buyer Documentation & Readiness
+            Buyer Documentation &amp; Readiness
           </h1>
           <p className="mt-4 max-w-3xl text-neutral-300">
-            The following outlines the standard documentation, commercial inputs,
-            and readiness items required to support export-focused refined product
-            transactions.
+            The following outlines the standard documentation, commercial inputs, and
+            readiness items required to support export-focused refined product transactions.
           </p>
+
+          <div className="mt-6 rounded-2xl border border-neutral-800 bg-neutral-900/25 p-5">
+            <p className="text-xs leading-relaxed text-neutral-400">
+              Note: This checklist is for readiness planning and process alignment only. Requirements
+              may be adjusted by the seller/refinery and the applicable transaction structure.
+            </p>
+          </div>
         </header>
 
         {/* Checklist */}
