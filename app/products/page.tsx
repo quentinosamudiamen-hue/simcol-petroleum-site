@@ -1,11 +1,38 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import Link from "next/link";
 import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Products | Simcol Petroleum",
+  title: "Jet A-1 & AGO Export Products | WAF Specification",
   description:
-    "Export-focused refined products for structured commercial discussions: Jet A-1 and AGO (WAF spec GO).",
+    "Export-focused refined products for structured commercial discussions: Jet A-1 aviation turbine fuel and AGO (WAF specification gas oil). Transaction-dependent FOB/CIF delivery with documentation-first eligibility review.",
+  alternates: {
+    canonical: "https://www.simcolgroup.com/products",
+  },
+  openGraph: {
+    title: "Jet A-1 & AGO Export Products | WAF Specification",
+    description:
+      "Export-focused refined product engagement: Jet A-1 and AGO (WAF specification gas oil). Documentation-first eligibility review under refinery-aligned process discipline.",
+    url: "https://www.simcolgroup.com/products",
+    siteName: "Simcol Petroleum",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Simcol Petroleum — Products",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jet A-1 & AGO Export Products | WAF Specification",
+    description:
+      "Jet A-1 and AGO (WAF specification gas oil) for export-focused commercial engagement. Documentation-first eligibility review.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 const products = [
@@ -46,8 +73,52 @@ const minimumInputs = [
 ];
 
 export default function ProductsPage() {
+  const jetA1JsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Jet A-1 Aviation Turbine Fuel",
+    description:
+      "Export-grade Jet A-1 aviation turbine fuel for transaction-dependent FOB/CIF delivery from Nigeria under documentation-first eligibility review and refinery-aligned process discipline.",
+    brand: { "@type": "Brand", name: "Simcol Petroleum" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: "Contact for pricing",
+      availability: "https://schema.org/InStock",
+      url: "https://www.simcolgroup.com/products",
+    },
+  };
+
+  const agoJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "AGO (WAF Specification Gas Oil)",
+    description:
+      "Export-grade AGO (West African specification gas oil) for transaction-dependent FOB/CIF delivery from Nigeria under documentation-first eligibility review and refinery-aligned process discipline.",
+    brand: { "@type": "Brand", name: "Simcol Petroleum" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: "Contact for pricing",
+      availability: "https://schema.org/InStock",
+      url: "https://www.simcolgroup.com/products",
+    },
+  };
+
   return (
     <main className="relative z-10 bg-transparent">
+      {/* Product Schema JSON-LD */}
+      <Script
+        id="product-jsonld-jet-a1"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jetA1JsonLd) }}
+      />
+      <Script
+        id="product-jsonld-ago"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(agoJsonLd) }}
+      />
+
       <div className="mx-auto max-w-5xl px-6 py-16 lg:py-20">
         {/* Header */}
         <PageHeader

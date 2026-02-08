@@ -1,8 +1,41 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Nigerian Petroleum Export | Jet A-1 & AGO | Dubai Execution Desk",
+  description:
+    "NMDPRA-licensed petroleum export trading. Refinery-aligned Jet A-1 and AGO (WAF specification) exports from Nigeria via Dubai execution desk. Principal-to-principal transactions with institutional documentation.",
+  alternates: {
+    canonical: "https://www.simcolgroup.com/",
+  },
+  openGraph: {
+    title: "Nigerian Petroleum Export | Jet A-1 & AGO | Dubai Execution Desk",
+    description:
+      "Export-focused refined product trading: Jet A-1 and AGO (WAF specification). Compliance-first, principal-only engagement via Dubai execution desk.",
+    url: "https://www.simcolgroup.com/",
+    siteName: "Simcol Petroleum",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Simcol Petroleum — Dubai Execution Desk",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Nigerian Petroleum Export | Jet A-1 & AGO | Dubai Execution Desk",
+    description:
+      "NMDPRA-licensed petroleum export trading. Jet A-1 and AGO (WAF specification). Dubai execution desk.",
+    images: ["/og-image.jpg"],
+  },
+};
 
 export default function HomePage() {
   return (
-    <main className="simcol-redesign">
+    <main className="relative z-10 bg-transparent max-w-4xl mx-auto px-6 py-16 space-y-14">
       {/* FULL-BLEED HERO (breaks out of any max-width shell safely) */}
       <section className="simcol-fullbleed">
         <section
@@ -63,7 +96,7 @@ export default function HomePage() {
                 View Framework
               </Link>
               <Link href="/contact" className="simcol-btn simcol-btn-secondary">
-                Submit Buyer Request
+                Contact Execution Desk
               </Link>
             </div>
           </div>
@@ -97,8 +130,8 @@ export default function HomePage() {
               Refinery-Aligned Execution
             </h2>
             <p className="simcol-subtitle">
-              We run a disciplined buyer onboarding and documentation flow designed
-              for institutional counterparties.
+              We run a disciplined buyer onboarding and documentation flow
+              designed for institutional counterparties.
             </p>
           </div>
 
@@ -107,7 +140,8 @@ export default function HomePage() {
               <div className="simcol-card-num">01</div>
               <div className="simcol-card-title">Buyer Onboarding</div>
               <div className="simcol-card-desc">
-                KYB/KYC readiness, signatory authority, and counterparty screening.
+                KYB/KYC readiness, signatory authority, and counterparty
+                screening.
               </div>
               <Link href="/documentation" className="simcol-card-link">
                 View documentation →
@@ -118,7 +152,8 @@ export default function HomePage() {
               <div className="simcol-card-num">02</div>
               <div className="simcol-card-title">Transaction Framework</div>
               <div className="simcol-card-desc">
-                Structured request submission, verification, and execution discipline.
+                Structured request submission, verification, and execution
+                discipline.
               </div>
               <Link href="/transaction-framework" className="simcol-card-link">
                 View framework →
@@ -135,12 +170,12 @@ export default function HomePage() {
             Ready to Engage <span className="highlight">Commercially</span>?
           </h2>
           <p>
-            Submit a buyer request and receive the required onboarding checklist
-            and next steps.
+            Contact our Dubai execution desk to align on process, documentation,
+            and readiness for refinery-aligned export engagement.
           </p>
           <div className="simcol-cta-buttons" aria-label="Call to action">
             <Link href="/contact" className="simcol-btn simcol-btn-primary">
-              Submit Buyer Request
+              Contact Execution Desk
             </Link>
             <Link href="/products" className="simcol-btn simcol-btn-secondary">
               View Products

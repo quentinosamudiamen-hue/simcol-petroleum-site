@@ -129,7 +129,7 @@ export default function BuyerProductRequestPage() {
             <p className="text-sm text-muted-foreground">
               For submission issues, contact{" "}
               <a className="underline" href="mailto:simon@simcolgroup.com">
-                simon@simcolgroup.com
+                commercial@simcolgroup.com
               </a>
               .
             </p>

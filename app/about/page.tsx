@@ -2,9 +2,35 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = {
-  title: "About | Simcol Petroleum",
+  title: "About SIMCOL Petroleum Nigeria | NMDPRA Licensed Export Trader",
   description:
-    "Simcol Petroleum Nigeria Limited is a refinery-aligned physical trader and exporter of refined petroleum products, operating an export-only mandate from Nigeria.",
+    "SIMCOL Petroleum Nigeria Limited is an NMDPRA-licensed physical petroleum export trader. Dubai execution desk. Refinery-aligned Jet A-1 and AGO (WAF specification) exports for institutional buyers.",
+  alternates: {
+    canonical: "https://www.simcolgroup.com/about",
+  },
+  openGraph: {
+    title: "About SIMCOL Petroleum Nigeria | NMDPRA Licensed Export Trader",
+    description:
+      "NMDPRA-licensed, export-only physical petroleum trader. Refinery-aligned execution for Jet A-1 and AGO (WAF specification) via Dubai execution desk.",
+    url: "https://www.simcolgroup.com/about",
+    siteName: "Simcol Petroleum",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Simcol Petroleum — Dubai Execution Desk",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About SIMCOL Petroleum Nigeria | NMDPRA Licensed Export Trader",
+    description:
+      "NMDPRA-licensed, export-only petroleum trading. Jet A-1 and AGO (WAF specification). Dubai execution desk.",
+    images: ["/og-image.jpg"],
+  },
 };
 
 export default function AboutPage() {
@@ -21,16 +47,16 @@ export default function AboutPage() {
             Company Overview
           </h2>
           <p className="mt-4 max-w-3xl text-sm md:text-base leading-relaxed text-white/70">
-            Simcol Petroleum Nigeria Limited is the Nigerian operating entity within the
-            Simcol Petroleum group. The business is structured as a physical exporter
-            of refined petroleum products, aligned with international refinery,
-            banking, and compliance standards.
+            Simcol Petroleum Nigeria Limited is the Nigerian operating entity within
+            the Simcol Petroleum group. The business is structured as a physical
+            exporter of refined petroleum products, aligned with international
+            refinery, banking, and compliance standards.
           </p>
         </div>
 
         <div>
           <h2 className="text-lg md:text-xl font-semibold text-white">
-            Role & Mandate
+            Role &amp; Mandate
           </h2>
           <p className="mt-4 max-w-3xl text-sm md:text-base leading-relaxed text-white/70">
             Simcol Petroleum operates strictly as a principal. The company does not
@@ -41,7 +67,7 @@ export default function AboutPage() {
 
         <div>
           <h2 className="text-lg md:text-xl font-semibold text-white">
-            Products & Export Scope
+            Products &amp; Export Scope
           </h2>
 
           <ul className="mt-4 space-y-2 text-sm md:text-base text-white/70">
@@ -52,6 +78,32 @@ export default function AboutPage() {
           <p className="mt-4 max-w-3xl text-xs md:text-sm leading-relaxed text-white/50">
             Product availability, specifications, and lifting schedules are subject
             to refinery confirmation and allocation procedures.
+          </p>
+        </div>
+
+        {/* NMDPRA SECTION */}
+        <div>
+          <h2 className="text-lg md:text-xl font-semibold text-white">
+            Regulatory Standing
+          </h2>
+
+          <p className="mt-4 max-w-3xl text-sm md:text-base leading-relaxed text-white/70">
+            SIMCOL Petroleum Nigeria Limited is an NMDPRA-licensed Wholesale Petroleum
+            Liquid Supply Operator authorized to conduct petroleum product export
+            operations under Nigerian regulatory oversight.
+          </p>
+
+          <ul className="mt-4 space-y-2 text-sm md:text-base text-white/70">
+            <li>• Authorization for wholesale petroleum liquid supply and export</li>
+            <li>• Compliance alignment with Nigerian midstream and downstream regulations</li>
+            <li>• Adherence to applicable quality, safety, and operational standards</li>
+            <li>• Institutional credibility for international petroleum transactions</li>
+          </ul>
+
+          <p className="mt-4 max-w-3xl text-xs md:text-sm leading-relaxed text-white/50">
+            All export activities are conducted in accordance with NMDPRA regulations,
+            applicable international petroleum trade standards, and banking compliance
+            requirements.
           </p>
         </div>
       </section>

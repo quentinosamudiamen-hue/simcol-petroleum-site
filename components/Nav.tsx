@@ -45,7 +45,6 @@ export default function Nav() {
   // Keep inputs in sync with URL when user navigates (important!)
   useEffect(() => {
     if (pathname === "/search") {
-      // Defer state updates to avoid react-hooks/set-state-in-effect lint error
       queueMicrotask(() => {
         setSearchQuery(urlQ);
         setMobileSearchQuery(urlQ);
@@ -57,7 +56,6 @@ export default function Nav() {
   useEffect(() => {
     const onScroll = () => {
       const next = window.scrollY > 50;
-      // Defer to avoid set-state-in-effect lint
       queueMicrotask(() => setElevated(next));
     };
 
@@ -68,7 +66,6 @@ export default function Nav() {
 
   // Close menu on route change
   useEffect(() => {
-    // Defer to avoid set-state-in-effect lint
     queueMicrotask(() => setOpen(false));
   }, [pathname]);
 
@@ -258,13 +255,14 @@ export default function Nav() {
               })}
             </div>
 
+            {/* Mobile CTA: keep it institutional (no buyer-request wording) */}
             <div style={{ marginTop: 14 }}>
               <Link
                 href="/contact"
                 style={mobileCtaStyle}
                 onClick={() => setOpen(false)}
               >
-                Submit Buyer Request
+                Contact Execution Desk
               </Link>
             </div>
 

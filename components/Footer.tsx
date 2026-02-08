@@ -16,7 +16,8 @@ const COMPANY_INFO = {
 const FOOTER_LINKS = {
   company: [
     { label: "About Simcol", href: "/about" },
-    { label: "Our Advantage", href: "/advantage" },
+    // Removed to avoid routing to a likely-nonexistent page (credibility risk)
+    // { label: "Our Advantage", href: "/advantage" },
     { label: "Transaction Process", href: "/transaction-framework" },
   ],
   legal: [
@@ -47,9 +48,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-neutral-900 bg-neutral-950">
-      {/* IMPORTANT: don't constrain to max-w-6xl; keep consistent with full-bleed pages */}
       <div className="mx-auto max-w-7xl px-6 py-12">
-        {/* Main footer content */}
         <div className="grid gap-10 md:grid-cols-4">
           {/* Company Info */}
           <div className="md:col-span-1">
