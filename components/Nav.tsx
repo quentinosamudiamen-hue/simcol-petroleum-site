@@ -8,17 +8,14 @@ import {
   type CSSProperties,
   type FormEvent,
 } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Nav() {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const [elevated, setElevated] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const urlQ = searchParams.get("q") ?? "";
 
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileSearchQuery, setMobileSearchQuery] = useState("");
@@ -43,14 +40,20 @@ export default function Nav() {
   };
 
   // Keep inputs in sync with URL when user navigates (important!)
+  // NOTE: we do NOT use useSearchParams() to avoid prerender/Suspense issues on /_not-found, /404.
   useEffect(() => {
-    if (pathname === "/search") {
-      queueMicrotask(() => {
-        setSearchQuery(urlQ);
-        setMobileSearchQuery(urlQ);
-      });
-    }
-  }, [pathname, urlQ]);
+    if (pathname !== "/search") return;
+
+    const q =
+      typeof window !== "undefined"
+        ? new URLSearchParams(window.location.search).get("q") ?? ""
+        : "";
+
+    queueMicrotask(() => {
+      setSearchQuery(q);
+      setMobileSearchQuery(q);
+    });
+  }, [pathname]);
 
   // Navbar elevation on scroll
   useEffect(() => {
