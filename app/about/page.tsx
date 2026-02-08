@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import PageHeader from "@/components/PageHeader";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "About SIMCOL Petroleum Nigeria | NMDPRA Licensed Export Trader",
@@ -36,10 +39,12 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="relative z-10 mx-auto w-full max-w-5xl px-6 pt-28 pb-20">
-      <PageHeader
-        title="About Simcol Petroleum"
-        description="A refinery-aligned physical trading and export company focused exclusively on refined petroleum exports to international markets."
-      />
+      <Suspense fallback={null}>
+        <PageHeader
+          title="About Simcol Petroleum"
+          description="A refinery-aligned physical trading and export company focused exclusively on refined petroleum exports to international markets."
+        />
+      </Suspense>
 
       <section className="space-y-12">
         <div>
@@ -81,7 +86,6 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* NMDPRA SECTION */}
         <div>
           <h2 className="text-lg md:text-xl font-semibold text-white">
             Regulatory Standing
