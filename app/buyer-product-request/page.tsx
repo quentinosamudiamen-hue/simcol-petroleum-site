@@ -6,9 +6,9 @@ export const metadata = {
 
 export default function BuyerProductRequestPage() {
   return (
-    <main className="max-w-4xl mx-auto px-6 py-16 space-y-10">
-      <header className="space-y-3">
-        <h1 className="text-3xl font-semibold tracking-tight">
+    <main className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-16 space-y-10">
+      <header className="relative z-10 space-y-3">
+        <h1 className="text-3xl font-semibold tracking-tight text-white">
           Buyer Product Request Submission
         </h1>
         <p className="text-muted-foreground">
@@ -25,9 +25,7 @@ export default function BuyerProductRequestPage() {
           className="space-y-8"
         >
           <fieldset className="space-y-4">
-            <legend className="text-lg font-semibold">
-              Buyer Identification
-            </legend>
+            <legend className="text-lg font-semibold">Buyer Identification</legend>
             <Input name="companyName" label="Legal Company Name" required />
             <Input name="country" label="Country of Incorporation" required />
             <Input name="registeredAddress" label="Registered Address" required />
