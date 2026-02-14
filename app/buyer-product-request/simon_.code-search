@@ -1,0 +1,10 @@
+# Query: simon@
+# ContextLines: 1
+
+2 results - 1 file
+
+app/buyer-product-request/page.tsx:
+  130                For submission issues, contact{" "}
+  131:               <a className="underline" href="mailto:simon@simcolgroup.com">
+  132:                 commercial@simcolgroup.com
+  133                </a>
