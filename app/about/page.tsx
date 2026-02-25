@@ -6,13 +6,10 @@ export const metadata: Metadata = {
   title: "About SIMCOL Petroleum Nigeria | Export-Only Refined Products",
   description:
     "SIMCOL Petroleum Nigeria Limited is a refinery-aligned physical trading and export company focused exclusively on refined petroleum exports to international markets, executed via a Dubai execution desk.",
-  alternates: {
-    canonical: "https://www.simcolgroup.com/about",
-  },
+  alternates: { canonical: "https://www.simcolgroup.com/about" },
   openGraph: {
     title: "About SIMCOL Petroleum Nigeria | Export-Only Refined Products",
-    description:
-      "Refinery-aligned, export-only refined products platform with Dubai execution desk. Jet A-1 and AGO (WAF specification) for institutional buyers.",
+    description: "Refinery-aligned, export-only refined products platform with Dubai execution desk. Jet A-1 and AGO (WAF specification) for institutional buyers.",
     url: "https://www.simcolgroup.com/about",
     siteName: "Simcol Petroleum",
     type: "website",
@@ -48,87 +45,37 @@ const bullets = [
 ];
 
 const why = [
-  {
-    title: "Direct Refinery Access",
-    desc: "Established counterparty relationships provide reliable product sourcing for international delivery.",
-  },
-  {
-    title: "Dubai Execution Capability",
-    desc: "Professional transaction coordination from a global financial hub with international banking infrastructure.",
-  },
-  {
-    title: "Regulatory Compliance",
-    desc: "NMDPRA licensing supports compliant operations under Nigerian petroleum regulatory requirements.",
-  },
-  {
-    title: "Export Market Focus",
-    desc: "Specialized infrastructure designed exclusively for cross-border refined product movements.",
-  },
-  {
-    title: "Institutional Standards",
-    desc: "Professional documentation, transparent processes, and execution discipline across transactions.",
-  },
+  { title: "Direct Refinery Access", desc: "Established counterparty relationships provide reliable product sourcing for international delivery." },
+  { title: "Dubai Execution Capability", desc: "Professional transaction coordination from a global financial hub with international banking infrastructure." },
+  { title: "Regulatory Compliance", desc: "NMDPRA licensing supports compliant operations under Nigerian petroleum regulatory requirements." },
+  { title: "Export Market Focus", desc: "Specialized infrastructure designed exclusively for cross-border refined product movements." },
+  { title: "Institutional Standards", desc: "Professional documentation, transparent processes, and execution discipline across transactions." },
 ];
 
 const timeline = [
-  {
-    year: "2007",
-    text: "Original SIMCOL Petroleum Limited Company founded in Atlanta, Georgia for US domestic fuel distribution.",
-  },
-  {
-    year: "2010–2021",
-    text: "Expanded petroleum market expertise and international trading relationships.",
-  },
-  {
-    year: "2022",
-    text: "SIMCOL Petroleum Nigeria Limited established with NMDPRA licensing for refined product export operations.",
-  },
-  {
-    year: "Present",
-    text: "Operating as an institutional-grade export platform aligned with refinery execution, Dubai coordination, and international buyer engagement.",
-  },
+  { year: "2007", text: "Original SIMCOL Petroleum Limited Company founded in Atlanta, Georgia for US domestic fuel distribution." },
+  { year: "2010–2021", text: "Expanded petroleum market expertise and international trading relationships." },
+  { year: "2022", text: "SIMCOL Petroleum Nigeria Limited established with NMDPRA licensing for refined product export operations." },
+  { year: "Present", text: "Operating as an institutional-grade export platform aligned with refinery execution, Dubai coordination, and international buyer engagement." },
 ];
 
 export default function AboutPage() {
   return (
     <main className="relative">
-      {/* Page-local background (matches your site style) */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(ellipse at top, rgba(46,204,113,0.14), rgba(0,0,0,0) 55%)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            backgroundPosition: "top center",
-          }}
-        />
-        <div
-          className="absolute inset-0 opacity-[0.055]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(255,255,255,0.10) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.10) 1px, transparent 1px)",
-            backgroundSize: "72px 72px",
-          }}
-        />
+        <div className="absolute inset-0" style={{ backgroundImage: "radial-gradient(ellipse at top, rgba(46,204,113,0.14), rgba(0,0,0,0) 55%)", backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "top center" }} />
+        <div className="absolute inset-0 opacity-[0.055]" style={{ backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.10) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.10) 1px, transparent 1px)", backgroundSize: "72px 72px" }} />
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-20 space-y-16">
+
         {/* Hero */}
         <header className="space-y-4">
-          <p className="text-xs tracking-[0.22em] uppercase text-white/60">
-            SIMCOL PETROLEUM NIGERIA LIMITED
-          </p>
-
-          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">
-            About Simcol Petroleum
-          </h1>
-
+          <p className="text-xs tracking-[0.22em] uppercase text-white/60">SIMCOL PETROLEUM NIGERIA LIMITED</p>
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-white">About Simcol Petroleum</h1>
           <p className="text-lg md:text-xl text-white/70 max-w-3xl">
-            A refinery-aligned physical trading and export company focused exclusively on refined
-            petroleum exports to international markets.
+            A refinery-aligned physical trading and export company focused exclusively on refined petroleum exports to international markets.
           </p>
         </header>
 
@@ -138,37 +85,30 @@ export default function AboutPage() {
             <div className="space-y-3">
               <h2 className="text-xl font-semibold text-white">Company Overview</h2>
               <p className="text-white/70 leading-relaxed">
-                SIMCOL Petroleum Nigeria Limited is a licensed petroleum trading and export company
-                specializing in physical refined product movements from Nigerian refineries to
-                international buyers. Operating from our Dubai execution desk, we facilitate
-                institutional-grade transactions in Jet A-1 aviation fuel and automotive gas oil
-                (AGO) for export-only delivery.
+                SIMCOL Petroleum Nigeria Limited is a licensed petroleum trading and export company specializing in physical refined product movements from Nigerian refineries to international buyers. Operating from our Dubai execution desk, we facilitate institutional-grade transactions in Jet A-1 aviation fuel and automotive gas oil (AGO) for export-only delivery.
               </p>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-base font-semibold text-white">Operational Infrastructure</h3>
+              {/* UPDATED: enhanced Dubai execution desk paragraph */}
               <p className="text-white/70 leading-relaxed">
-                Licensed by Nigeria&apos;s NMDPRA (Nigerian Midstream and Downstream Petroleum
-                Regulatory Authority), SIMCOL maintains direct refinery counterparty relationships
-                that enable reliable product access for international delivery. Our Dubai-based
-                execution team coordinates transaction logistics, documentation, and settlement
-                processes in accordance with international petroleum trading standards.
+                Licensed by Nigeria&apos;s NMDPRA (Nigerian Midstream and Downstream Petroleum Regulatory Authority), SIMCOL maintains direct refinery counterparty relationships that enable reliable product access for international delivery. Our Dubai execution desk coordinates transaction logistics, international banking interface, trade finance documentation, and cross-border settlement processes in accordance with global petroleum trading standards.
               </p>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-base font-semibold text-white">Market Position</h3>
               <p className="text-white/70 leading-relaxed">
-                The Nigeria export platform was established in 2022 to serve institutional refined
-                product export buyers who require transparent execution, regulatory compliance, and
-                refinery-aligned sourcing. We operate exclusively in the export market, with no
-                involvement in domestic Nigerian petroleum distribution.
+                The Nigeria export platform was established in 2022 to serve institutional refined product export buyers who require transparent execution, regulatory compliance, and refinery-aligned sourcing. We operate exclusively in the export market, with no involvement in domestic Nigerian petroleum distribution.
+              </p>
+              {/* NEW: Corridor Stability line */}
+              <p className="text-white/70 leading-relaxed">
+                Our platform is structured to support stable refined product corridors between Nigeria and international aviation and diesel markets.
               </p>
             </div>
           </div>
 
-          {/* Right callout */}
           <aside className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-4">
             <p className="text-xs tracking-[0.22em] uppercase text-white/60">Scope</p>
             <ul className="space-y-2 text-sm text-white/75">
@@ -176,13 +116,10 @@ export default function AboutPage() {
               <li>• Institutional buyer engagement</li>
               <li>• Refinery-aligned transaction discipline</li>
             </ul>
-
             <div className="pt-4 border-t border-white/10">
               <p className="text-xs tracking-[0.22em] uppercase text-white/60">Notice</p>
               <p className="text-sm text-white/70 leading-relaxed mt-2">
-                This website content is provided for preliminary commercial discussions and
-                execution planning only and does not constitute an offer, allocation commitment, or
-                binding agreement.
+                This website content is provided for preliminary commercial discussions and execution planning only and does not constitute an offer, allocation commitment, or binding agreement.
               </p>
             </div>
           </aside>
@@ -191,18 +128,12 @@ export default function AboutPage() {
         {/* Geographic Presence */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold text-white">Geographic Presence</h2>
-
           <div className="grid md:grid-cols-3 gap-6">
             {bullets.map((b) => (
-              <div
-                key={b.title}
-                className="rounded-2xl border border-white/10 bg-white/[0.04] p-6"
-              >
+              <div key={b.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
                 <h3 className="text-base font-semibold text-white">{b.title}</h3>
                 <ul className="mt-3 space-y-2 text-sm text-white/70">
-                  {b.points.map((p) => (
-                    <li key={p}>• {p}</li>
-                  ))}
+                  {b.points.map((p) => <li key={p}>• {p}</li>)}
                 </ul>
               </div>
             ))}
@@ -212,39 +143,24 @@ export default function AboutPage() {
         {/* Business Model & Scope */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold text-white">Business Model &amp; Scope</h2>
-
           <div className="grid md:grid-cols-2 gap-6">
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Export-Only Focus</h3>
               <p className="text-sm text-white/70 leading-relaxed">
-                SIMCOL operates exclusively in refined petroleum exports. We do not participate in
-                domestic Nigerian fuel distribution, retail operations, or crude oil trading. Our
-                infrastructure is designed for cross-border refined product movements to
-                international institutional buyers.
+                SIMCOL operates exclusively in refined petroleum exports. We do not participate in domestic Nigerian fuel distribution, retail operations, or crude oil trading. Our infrastructure is designed for cross-border refined product movements to international institutional buyers.
               </p>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Product Specialization</h3>
               <ul className="text-sm text-white/70 space-y-2">
-                <li>
-                  • <span className="text-white/85 font-medium">Jet A-1 Aviation Fuel</span>: Export-grade
-                  kerosene meeting international aviation specifications
-                </li>
-                <li>
-                  • <span className="text-white/85 font-medium">Automotive Gas Oil (AGO)</span>: West African
-                  specification diesel for international markets
-                </li>
+                <li>• <span className="text-white/85 font-medium">Jet A-1 Aviation Fuel</span>: Export-grade kerosene meeting international aviation specifications</li>
+                <li>• <span className="text-white/85 font-medium">Automotive Gas Oil (AGO)</span>: West African specification diesel for international markets</li>
               </ul>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3 md:col-span-2">
               <h3 className="text-base font-semibold text-white">Institutional Buyer Engagement</h3>
               <p className="text-sm text-white/70 leading-relaxed">
-                Our transaction framework is designed for institutional buyers requiring transparent
-                refinery-aligned sourcing, professional documentation and settlement processes,
-                regulatory compliance across jurisdictions, and reliable product access through
-                established refinery relationships.
+                Our transaction framework is designed for institutional buyers requiring transparent refinery-aligned sourcing, professional documentation and settlement processes, regulatory compliance across jurisdictions, and reliable product access through established refinery relationships.
               </p>
             </div>
           </div>
@@ -253,18 +169,17 @@ export default function AboutPage() {
         {/* Transaction Discipline */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold text-white">Transaction Discipline</h2>
-
+          {/* NEW: Counterparty risk discipline line */}
+          <p className="text-white/70 leading-relaxed">
+            SIMCOL applies structured counterparty due diligence procedures aligned with international trade finance and compliance expectations.
+          </p>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Refinery-Aligned Execution</h3>
               <p className="text-sm text-white/70 leading-relaxed">
-                SIMCOL maintains direct counterparty relationships with Nigerian refineries, enabling
-                consistent product access for export delivery. We emphasize transparency in sourcing
-                while maintaining appropriate commercial discretion around specific refinery
-                partnerships.
+                SIMCOL maintains direct counterparty relationships with Nigerian refineries, enabling consistent product access for export delivery. We emphasize transparency in sourcing while maintaining appropriate commercial discretion around specific refinery partnerships.
               </p>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Documentation Standards</h3>
               <ul className="text-sm text-white/70 space-y-2">
@@ -274,7 +189,6 @@ export default function AboutPage() {
                 <li>• Export documentation and compliance records</li>
               </ul>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Regulatory Compliance</h3>
               <ul className="text-sm text-white/70 space-y-2">
@@ -290,13 +204,9 @@ export default function AboutPage() {
         {/* Why SIMCOL */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold text-white">Why SIMCOL</h2>
-
           <div className="grid md:grid-cols-2 gap-6">
             {why.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/[0.04] p-6"
-              >
+              <div key={item.title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
                 <h3 className="text-base font-semibold text-white">{item.title}</h3>
                 <p className="text-sm text-white/70 leading-relaxed mt-2">{item.desc}</p>
               </div>
@@ -307,7 +217,6 @@ export default function AboutPage() {
         {/* Company Heritage */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold text-white">Company Heritage</h2>
-
           <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
             <div className="grid md:grid-cols-2 gap-6">
               {timeline.map((t) => (
@@ -323,38 +232,26 @@ export default function AboutPage() {
         {/* Operational Philosophy */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold text-white">Operational Philosophy</h2>
-
+          {/* NEW: Governance & Transparency statement */}
+          <p className="text-white/70 leading-relaxed">
+            SIMCOL maintains a transparent governance structure and verifiable leadership presence to support institutional compliance reviews and long-term supply partnerships.
+          </p>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Transparency</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Clear communication on specifications, transaction structure, and execution steps
-                while maintaining appropriate commercial discretion.
-              </p>
+              <p className="text-sm text-white/70 leading-relaxed">Clear communication on specifications, transaction structure, and execution steps while maintaining appropriate commercial discretion.</p>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Reliability</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Consistent execution via established refinery relationships and disciplined
-                documentation and logistics coordination.
-              </p>
+              <p className="text-sm text-white/70 leading-relaxed">Consistent execution via established refinery relationships and disciplined documentation and logistics coordination.</p>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Compliance</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Strict adherence to regulatory requirements across operating jurisdictions and trade
-                finance expectations.
-              </p>
+              <p className="text-sm text-white/70 leading-relaxed">Strict adherence to regulatory requirements across operating jurisdictions and trade finance expectations.</p>
             </div>
-
             <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 space-y-3">
               <h3 className="text-base font-semibold text-white">Professionalism</h3>
-              <p className="text-sm text-white/70 leading-relaxed">
-                Institutional-grade documentation, settlement processes, and buyer engagement
-                protocols.
-              </p>
+              <p className="text-sm text-white/70 leading-relaxed">Institutional-grade documentation, settlement processes, and buyer engagement protocols.</p>
             </div>
           </div>
         </section>
@@ -364,24 +261,16 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-6 items-start">
             <div className="md:col-span-2 space-y-2">
               <h2 className="text-xl font-semibold text-white">Contact &amp; Engagement</h2>
-              <p className="text-sm text-white/70 leading-relaxed">
-                For institutional buyer inquiries, please contact the Dubai execution desk.
-              </p>
+              <p className="text-sm text-white/70 leading-relaxed">For institutional buyer inquiries, please contact the Dubai execution desk.</p>
             </div>
-
             <div className="space-y-2 text-sm text-white/75">
-              <p>
-                <span className="text-white/60">Email:</span> commercial@simcolgroup.com
-              </p>
-              <p>
-                <span className="text-white/60">Phone:</span> +971 50 466 8906
-              </p>
-              <p>
-                <span className="text-white/60">Location:</span> Dubai, United Arab Emirates
-              </p>
+              <p><span className="text-white/60">Email:</span> commercial@simcolgroup.com</p>
+              <p><span className="text-white/60">Phone:</span> +971 50 466 8906</p>
+              <p><span className="text-white/60">Location:</span> Dubai, United Arab Emirates</p>
             </div>
           </div>
         </section>
+
       </div>
     </main>
   );
