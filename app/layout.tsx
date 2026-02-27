@@ -110,13 +110,10 @@ export const metadata: Metadata = {
   // Put your logo favicon at: public/favicon.png
   // (keep favicon.ico as fallback)
   icons: {
-    icon: [
-      { url: "/favicon.png", type: "image/png" },
-      { url: "/favicon.ico" },
-    ],
-    shortcut: ["/favicon.png"],
-    apple: [{ url: "/apple-touch-icon.png" }],
-  },
+  icon: [{ url: "/favicon.png", type: "image/png" }],
+  shortcut: ["/favicon.png"],
+  apple: ["/apple-touch-icon.png"],
+},
 };
 
 /* ------------------------------------------------------------------ */
