@@ -9,7 +9,7 @@ export default function Header() {
         {/* Logo / Home Link */}
         <Link
           href="/"
-          className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition"
+          className="flex items-center gap-3 cursor-pointer hover:opacity-90 transition-opacity"
           aria-label="Simcol Petroleum Nigeria Limited Home"
         >
           <Image
@@ -17,10 +17,13 @@ export default function Header() {
             alt="Simcol Petroleum Nigeria Limited"
             width={42}
             height={42}
+            quality={100}
             priority
+            sizes="42px"
+            className="object-contain"
           />
 
-          <div className="leading-tight">
+          <div className="leading-tight select-none">
             <div className="text-sm font-semibold text-white">
               Simcol Petroleum Nigeria Limited
             </div>
@@ -32,11 +35,11 @@ export default function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-6 text-sm text-white/80">
-          <Link href="/about" className="hover:text-white transition">About</Link>
-          <Link href="/products" className="hover:text-white transition">Products</Link>
-          <Link href="/transaction-framework" className="hover:text-white transition">Framework</Link>
-          <Link href="/documentation" className="hover:text-white transition">Documentation</Link>
-          <Link href="/contact" className="hover:text-white transition">Contact</Link>
+          <Link href="/about" className="hover:text-white transition-colors">About</Link>
+          <Link href="/products" className="hover:text-white transition-colors">Products</Link>
+          <Link href="/transaction-framework" className="hover:text-white transition-colors">Framework</Link>
+          <Link href="/documentation" className="hover:text-white transition-colors">Documentation</Link>
+          <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
         </nav>
 
       </div>
