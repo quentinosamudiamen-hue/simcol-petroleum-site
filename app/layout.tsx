@@ -31,8 +31,8 @@ const SITE = {
   phone: "+971 50 466 8906",
   email: "commercial@simcolgroup.com",
   locale: "en_US",
-  twitter: "@simcolgroup", // optional; keep or remove
-  ogImage: "/og-image.jpg", // ensure this exists in /public
+  twitter: "@simcolgroup",
+  ogImage: "/og-image.jpg", // must exist in /public
 };
 
 /* ------------------------------------------------------------------ */
@@ -41,15 +41,17 @@ const SITE = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
+
   title: {
     default: `${SITE.name} | Dubai Execution Desk`,
     template: `%s | ${SITE.name}`,
   },
+
   description:
     "NMDPRA-licensed petroleum export trading. Refinery-aligned Jet A-1 and AGO (WAF specification) exports from Nigeria via Dubai execution desk. Principal-to-principal transactions with institutional documentation.",
+
   applicationName: SITE.name,
 
-  // Light, intent-heavy keywords (avoid spammy keyword stuffing)
   keywords: [
     "Nigerian petroleum export",
     "Jet A-1 export Nigeria",
@@ -102,18 +104,22 @@ export const metadata: Metadata = {
     images: [SITE.ogImage],
   },
 
-  // Identity hints (safe)
   creator: SITE.legalName,
   publisher: SITE.legalName,
 
-  // ✅ PATCH: favicon + modern icons
-  // Put your logo favicon at: public/favicon.png
-  // (keep favicon.ico as fallback)
+  // ✅ FIX: provide BOTH PNG + ICO + apple icon so every browser picks correctly
+  // Required files:
+  //  - public/favicon.png
+  //  - public/favicon.ico
+  //  - public/apple-touch-icon.png  (or Next app route icon: app/apple-icon.png)
   icons: {
-  icon: [{ url: "/favicon.png", type: "image/png" }],
-  shortcut: ["/favicon.png"],
-  apple: ["/apple-touch-icon.png"],
-},
+    icon: [
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 /* ------------------------------------------------------------------ */
@@ -154,6 +160,10 @@ function OrganizationJsonLd() {
     />
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* ROOT LAYOUT                                                        */
+/* ------------------------------------------------------------------ */
 
 export default function RootLayout({
   children,
