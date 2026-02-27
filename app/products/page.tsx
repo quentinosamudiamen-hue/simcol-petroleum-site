@@ -73,6 +73,11 @@ const minimumInputs = [
 ];
 
 export default function ProductsPage() {
+  /**
+   * ✅ PATCH A: Remove price (and therefore remove the need for priceValidUntil).
+   * Google expects `offers.price` to be a number; "Contact for pricing" triggers warnings.
+   * We keep an Offer but represent pricing as descriptive via priceSpecification.description.
+   */
   const jetA1JsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -83,9 +88,20 @@ export default function ProductsPage() {
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",
-      price: "Contact for pricing",
       availability: "https://schema.org/InStock",
       url: "https://www.simcolgroup.com/products",
+      eligibleRegion: { "@type": "Country", name: "Nigeria" },
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        priceCurrency: "USD",
+        description:
+          "Pricing provided upon request. Transaction-dependent FOB/CIF structure.",
+      },
+      seller: {
+        "@type": "Organization",
+        name: "Simcol Petroleum Nigeria Limited",
+        url: "https://www.simcolgroup.com",
+      },
     },
   };
 
@@ -99,9 +115,20 @@ export default function ProductsPage() {
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",
-      price: "Contact for pricing",
       availability: "https://schema.org/InStock",
       url: "https://www.simcolgroup.com/products",
+      eligibleRegion: { "@type": "Country", name: "Nigeria" },
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        priceCurrency: "USD",
+        description:
+          "Pricing provided upon request. Transaction-dependent FOB/CIF structure.",
+      },
+      seller: {
+        "@type": "Organization",
+        name: "Simcol Petroleum Nigeria Limited",
+        url: "https://www.simcolgroup.com",
+      },
     },
   };
 
@@ -129,15 +156,18 @@ export default function ProductsPage() {
         {/* Institutional discipline note */}
         <div className="-mt-6 mb-12 rounded-2xl border border-neutral-800 bg-neutral-900/25 p-6">
           <p className="text-sm leading-relaxed text-neutral-300">
-            This page intentionally excludes pricing and commercial terms. Where eligible to
-            proceed, commercial progression follows seller/refinery process discipline and is
-            typically contingent on documentation review and (where applicable) financial
-            instrument readiness.
+            This page intentionally excludes pricing and commercial terms. Where
+            eligible to proceed, commercial progression follows seller/refinery
+            process discipline and is typically contingent on documentation
+            review and (where applicable) financial instrument readiness.
           </p>
         </div>
 
         {/* Products Grid */}
-        <section className="grid gap-6 md:grid-cols-2" aria-label="Available products">
+        <section
+          className="grid gap-6 md:grid-cols-2"
+          aria-label="Available products"
+        >
           {products.map((p) => (
             <article
               key={p.name}
@@ -147,7 +177,9 @@ export default function ProductsPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-semibold tracking-tight">{p.name}</h2>
+                    <h2 className="text-xl font-semibold tracking-tight">
+                      {p.name}
+                    </h2>
                     <span className="rounded-full bg-neutral-800 px-2.5 py-0.5 text-xs font-medium text-neutral-300">
                       {p.category}
                     </span>
@@ -204,11 +236,11 @@ export default function ProductsPage() {
           </h3>
 
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-neutral-300">
-            Provide the minimum commercial inputs below to begin eligibility review. A KYB/KYC
-            documentation pack and authorized signatory confirmation are typically required to
-            proceed. Where required by the seller/refinery, financial instruments may include PB /
-            deposit / LC / SBLC; such requirements remain the buyer’s responsibility as a condition
-            precedent to commercial progression.
+            Provide the minimum commercial inputs below to begin eligibility review. A
+            KYB/KYC documentation pack and authorized signatory confirmation are typically
+            required to proceed. Where required by the seller/refinery, financial instruments
+            may include PB / deposit / LC / SBLC; such requirements remain the buyer’s
+            responsibility as a condition precedent to commercial progression.
           </p>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
