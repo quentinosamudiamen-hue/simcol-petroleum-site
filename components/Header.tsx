@@ -15,8 +15,8 @@ export default function Header() {
           <Image
             src="/brand/simcol-logo.png"
             alt="Simcol Petroleum Nigeria Limited"
-            width={42}
-            height={42}
+            width={46}
+            height={46}
             quality={100}
             priority
             sizes="42px"
