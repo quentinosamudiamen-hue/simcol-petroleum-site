@@ -146,11 +146,11 @@ export default function Nav() {
         <nav className="simcol-nav" style={navStyle} aria-label="Primary">
           {/* Brand */}
           <Link href="/" style={brandStyle} aria-label="Simcol Petroleum Home">
-            <div style={{ width: 50, height: 50 }}>
+            <div style={logoBadgeStyle}>
               <img
-                alt="SIMCOL"
-                style={{ width: "100%", height: "100%" }}
-                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3CradialGradient id='globe' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' style='stop-color:%232ECC71;stop-opacity:0.2' /%3E%3Cstop offset='100%25' style='stop-color:%2327AE60;stop-opacity:1' /%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='50' cy='50' r='45' fill='none' stroke='url(%23globe)' stroke-width='1' /%3E%3Ccircle cx='30' cy='25' r='3' fill='%232ECC71' /%3E%3Ccircle cx='45' cy='30' r='2.5' fill='%2327AE60' /%3E%3Ccircle cx='60' cy='28' r='3' fill='%232ECC71' /%3E%3Ccircle cx='70' cy='40' r='2.5' fill='%2358D68D' /%3E%3Ccircle cx='65' cy='55' r='3' fill='%232ECC71' /%3E%3Ccircle cx='50' cy='60' r='2.5' fill='%2327AE60' /%3E%3Ccircle cx='35' cy='65' r='3' fill='%232ECC71' /%3E%3Ccircle cx='25' cy='50' r='2.5' fill='%2358D68D' /%3E%3Ccircle cx='40' cy='45' r='2' fill='%232ECC71' /%3E%3C/svg%3E"
+                src="/brand/simcol-logo.png"
+                alt="Simcol Petroleum Nigeria Limited"
+                style={logoImgStyle}
               />
             </div>
 
@@ -258,7 +258,7 @@ export default function Nav() {
               })}
             </div>
 
-            {/* Mobile CTA: keep it institutional (no buyer-request wording) */}
+            {/* Mobile CTA */}
             <div style={{ marginTop: 14 }}>
               <Link
                 href="/contact"
@@ -270,8 +270,8 @@ export default function Nav() {
             </div>
 
             <div style={mobileMetaStyle}>
-              Export-only refined products • Institutional buyer engagement •
-              Dubai execution
+              Export-only refined products • Institutional buyer engagement • Dubai
+              execution
             </div>
           </div>
         </div>
@@ -351,6 +351,25 @@ const brandStyle: CSSProperties = {
   alignItems: "center",
   gap: "0.9rem",
   textDecoration: "none",
+};
+
+const logoBadgeStyle: CSSProperties = {
+  width: 56,
+  height: 56,
+  borderRadius: 999,
+  background: "rgba(0,0,0,0.62)",
+  border: "1px solid rgba(255,255,255,0.14)",
+  display: "grid",
+  placeItems: "center",
+  boxShadow: "0 10px 25px rgba(0,0,0,0.45)",
+};
+
+const logoImgStyle: CSSProperties = {
+  width: "84%",
+  height: "84%",
+  objectFit: "contain",
+  filter:
+    "drop-shadow(0 0 10px rgba(46,204,113,0.70)) drop-shadow(0 2px 6px rgba(0,0,0,0.60))",
 };
 
 const brandTitleStyle: CSSProperties = {
