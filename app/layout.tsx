@@ -106,8 +106,16 @@ export const metadata: Metadata = {
   creator: SITE.legalName,
   publisher: SITE.legalName,
 
+  // ✅ PATCH: favicon + modern icons
+  // Put your logo favicon at: public/favicon.png
+  // (keep favicon.ico as fallback)
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: ["/favicon.png"],
+    apple: [{ url: "/apple-touch-icon.png" }],
   },
 };
 
