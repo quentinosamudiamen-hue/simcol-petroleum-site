@@ -23,12 +23,16 @@ function Card({
   bullets,
   ctaHref,
   ctaText,
+  specHref,
+  specText,
 }: {
   title: string;
   subtitle: string;
   bullets: string[];
   ctaHref: string;
   ctaText: string;
+  specHref?: string;
+  specText?: string;
 }) {
   return (
     <div className="rounded-2xl border border-emerald-400/15 bg-black/40 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
@@ -56,6 +60,18 @@ function Card({
         >
           {ctaText}
         </Link>
+
+        {specHref ? (
+          <a
+            href={specHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-xl border border-emerald-400/25 bg-emerald-400/10 px-4 py-2 text-sm font-bold text-emerald-200 hover:bg-emerald-400/15 transition"
+          >
+            {specText ?? "Download Specifications (PDF)"}
+          </a>
+        ) : null}
+
         <Link
           href="/transaction-framework"
           className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-black/30 px-4 py-2 text-sm font-bold text-white/90 hover:bg-black/40 transition"
@@ -93,7 +109,10 @@ export default function ProductsPage() {
       {/* Quick spec blocks */}
       <section className="grid gap-4 md:grid-cols-4">
         <SpecRow label="Transaction Basis" value="Principal-to-Principal" />
-        <SpecRow label="Engagement Type" value="Institutional / Verified Buyers" />
+        <SpecRow
+          label="Engagement Type"
+          value="Institutional / Verified Buyers"
+        />
         <SpecRow label="Execution" value="Dubai Execution Desk" />
         <SpecRow label="Request Intake" value="Private Link / Direct" />
       </section>
@@ -124,6 +143,8 @@ export default function ProductsPage() {
           ]}
           ctaHref="/buyer-product-request"
           ctaText="Submit AGO Request"
+          specHref="/specs/ago-export-specifications-lsgo-50ppm.pdf"
+          specText="Download AGO Export Specifications (LSGO 50ppm)"
         />
       </section>
 
