@@ -1,320 +1,211 @@
-import type { Metadata } from "next";
-import Script from "next/script";
 import Link from "next/link";
-import PageHeader from "@/components/PageHeader";
 
-export const metadata: Metadata = {
-  title: "Jet A-1 & AGO Export Products | WAF Specification",
+export const metadata = {
+  title: "Products | Simcol Petroleum Nigeria Limited",
   description:
-    "Export-focused refined products for structured commercial discussions: Jet A-1 aviation turbine fuel and AGO (WAF specification gas oil). Transaction-dependent FOB/CIF delivery with documentation-first eligibility review.",
-  alternates: {
-    canonical: "https://www.simcolgroup.com/products",
-  },
-  openGraph: {
-    title: "Jet A-1 & AGO Export Products | WAF Specification",
-    description:
-      "Export-focused refined product engagement: Jet A-1 and AGO (WAF specification gas oil). Documentation-first eligibility review under refinery-aligned process discipline.",
-    url: "https://www.simcolgroup.com/products",
-    siteName: "Simcol Petroleum",
-    type: "website",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Simcol Petroleum — Products",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Jet A-1 & AGO Export Products | WAF Specification",
-    description:
-      "Jet A-1 and AGO (WAF specification gas oil) for export-focused commercial engagement. Documentation-first eligibility review.",
-    images: ["/og-image.jpg"],
-  },
+    "Jet A-1 and AGO export supply parameters: indicative specifications, lifting sizes, delivery basis, and execution process.",
 };
 
-const products = [
-  {
-    name: "Jet A-1",
-    subtitle: "Aviation Turbine Fuel",
-    category: "Aviation",
-    bullets: [
-      "Export-focused engagement under refinery-aligned process discipline",
-      "Subject to KYB/KYC completeness and counterparty readiness verification",
-      "Delivery basis: FOB / CIF (transaction-dependent)",
-      "Scheduling and loadability subject to seller/refinery process alignment",
-    ],
-    note:
-      "Final specifications, loading terms, and scheduling are confirmed only after documentation review and process eligibility alignment with the seller/refinery.",
-  },
-  {
-    name: "AGO (WAF spec GO)",
-    subtitle: "Automotive Gas Oil – West Africa Specification",
-    category: "Diesel",
-    bullets: [
-      "Gas oil aligned to West African specification standards",
-      "Export-focused engagement under refinery-aligned process discipline",
-      "Subject to KYB/KYC completeness and counterparty readiness verification",
-      "Delivery basis: FOB / CIF (transaction-dependent)",
-    ],
-    note:
-      "Availability and transaction requirements vary by seller/refinery alignment and buyer readiness. Commercial progression follows documentation-first gating.",
-  },
-];
+function SpecRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col gap-1 rounded-xl border border-white/10 bg-black/35 p-4">
+      <div className="text-[11px] uppercase tracking-[0.18em] text-white/55">
+        {label}
+      </div>
+      <div className="text-sm font-semibold text-white/90">{value}</div>
+    </div>
+  );
+}
 
-const minimumInputs = [
-  "Product name (Jet A-1 or AGO/WAF spec GO)",
-  "Quantity and preferred lifting structure (spot / term, if applicable)",
-  "Delivery basis (FOB/CIF) and destination/discharge terms",
-  "Target loading window (dates)",
-  "Buyer corporate details (KYB) and authorized signatory confirmation (KYC)",
-];
+function Card({
+  title,
+  subtitle,
+  bullets,
+  ctaHref,
+  ctaText,
+}: {
+  title: string;
+  subtitle: string;
+  bullets: string[];
+  ctaHref: string;
+  ctaText: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-emerald-400/15 bg-black/40 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
+      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300/80">
+        Product
+      </div>
+      <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-white">
+        {title}
+      </h2>
+      <p className="mt-2 text-sm text-white/70">{subtitle}</p>
+
+      <ul className="mt-5 space-y-3 text-sm text-white/80">
+        {bullets.map((b) => (
+          <li key={b} className="flex gap-2">
+            <span className="mt-1 text-emerald-400">✓</span>
+            <span>{b}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Link
+          href={ctaHref}
+          className="inline-flex items-center justify-center rounded-xl bg-emerald-400 px-4 py-2 text-sm font-extrabold text-black hover:opacity-90 transition"
+        >
+          {ctaText}
+        </Link>
+        <Link
+          href="/transaction-framework"
+          className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-black/30 px-4 py-2 text-sm font-bold text-white/90 hover:bg-black/40 transition"
+        >
+          View Transaction Framework
+        </Link>
+      </div>
+
+      <p className="mt-5 text-xs text-white/55">
+        Note: Specifications and availability are confirmed after buyer readiness
+        screening and formal request submission.
+      </p>
+    </div>
+  );
+}
 
 export default function ProductsPage() {
-  /**
-   * ✅ PATCH A: Remove price (and therefore remove the need for priceValidUntil).
-   * Google expects `offers.price` to be a number; "Contact for pricing" triggers warnings.
-   * We keep an Offer but represent pricing as descriptive via priceSpecification.description.
-   */
-  const jetA1JsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: "Jet A-1 Aviation Turbine Fuel",
-    description:
-      "Export-grade Jet A-1 aviation turbine fuel for transaction-dependent FOB/CIF delivery from Nigeria under documentation-first eligibility review and refinery-aligned process discipline.",
-    brand: { "@type": "Brand", name: "Simcol Petroleum" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: "https://www.simcolgroup.com/products",
-      eligibleRegion: { "@type": "Country", name: "Nigeria" },
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        priceCurrency: "USD",
-        description:
-          "Pricing provided upon request. Transaction-dependent FOB/CIF structure.",
-      },
-      seller: {
-        "@type": "Organization",
-        name: "Simcol Petroleum Nigeria Limited",
-        url: "https://www.simcolgroup.com",
-      },
-    },
-  };
-
-  const agoJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: "AGO (WAF Specification Gas Oil)",
-    description:
-      "Export-grade AGO (West African specification gas oil) for transaction-dependent FOB/CIF delivery from Nigeria under documentation-first eligibility review and refinery-aligned process discipline.",
-    brand: { "@type": "Brand", name: "Simcol Petroleum" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: "https://www.simcolgroup.com/products",
-      eligibleRegion: { "@type": "Country", name: "Nigeria" },
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        priceCurrency: "USD",
-        description:
-          "Pricing provided upon request. Transaction-dependent FOB/CIF structure.",
-      },
-      seller: {
-        "@type": "Organization",
-        name: "Simcol Petroleum Nigeria Limited",
-        url: "https://www.simcolgroup.com",
-      },
-    },
-  };
-
   return (
-    <main className="relative z-10 bg-transparent">
-      {/* Product Schema JSON-LD */}
-      <Script
-        id="product-jsonld-jet-a1"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jetA1JsonLd) }}
-      />
-      <Script
-        id="product-jsonld-ago"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(agoJsonLd) }}
-      />
+    <main className="relative z-10 mx-auto max-w-6xl px-6 py-14 space-y-10">
+      {/* Header */}
+      <section className="space-y-4">
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-black/40 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-300/90">
+          Export Supply Parameters
+        </div>
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+          Refined Products (Export-Only)
+        </h1>
+        <p className="max-w-3xl text-sm md:text-base text-white/70 leading-relaxed">
+          We engage institutional counterparties for refinery-aligned exports.
+          Below are the commercial parameters buyers need to evaluate fit before
+          initiating the request and documentation process.
+        </p>
+      </section>
 
-      <div className="mx-auto max-w-5xl px-6 py-16 lg:py-20">
-        {/* Header */}
-        <PageHeader
-          title="Products"
-          description="Simcol supports structured, refinery-aligned engagement for export-focused refined product transactions. The products below are presented for preliminary commercial discussions, subject to documentation completeness and counterparty readiness."
+      {/* Quick spec blocks */}
+      <section className="grid gap-4 md:grid-cols-4">
+        <SpecRow label="Transaction Basis" value="Principal-to-Principal" />
+        <SpecRow label="Engagement Type" value="Institutional / Verified Buyers" />
+        <SpecRow label="Execution" value="Dubai Execution Desk" />
+        <SpecRow label="Request Intake" value="Private Link / Direct" />
+      </section>
+
+      {/* Products */}
+      <section className="grid gap-6 md:grid-cols-2">
+        <Card
+          title="Jet A-1 (Aviation Turbine Fuel)"
+          subtitle="Export supply with refinery-aligned documentation and disciplined execution."
+          bullets={[
+            "Delivery basis: FOB export corridors (confirmed during execution)",
+            "Lifting size: institutional cargo programs (min volume confirmed per request)",
+            "Specs: typical Jet A-1 export grade (final CoQ governs)",
+            "Documentation: SPA, CoQ/CoO, SGS/inspection as applicable",
+          ]}
+          ctaHref="/buyer-product-request"
+          ctaText="Submit Jet A-1 Request"
         />
 
-        {/* Institutional discipline note */}
-        <div className="-mt-6 mb-12 rounded-2xl border border-neutral-800 bg-neutral-900/25 p-6">
-          <p className="text-sm leading-relaxed text-neutral-300">
-            This page intentionally excludes pricing and commercial terms. Where
-            eligible to proceed, commercial progression follows seller/refinery
-            process discipline and is typically contingent on documentation
-            review and (where applicable) financial instrument readiness.
-          </p>
+        <Card
+          title="AGO (Gas Oil) — WAF Specification"
+          subtitle="AGO supply aligned with West African market requirements and trade finance compliance."
+          bullets={[
+            "Delivery basis: FOB export corridors (confirmed during execution)",
+            "Lifting size: institutional cargo programs (min volume confirmed per request)",
+            "Specs: WAF spec GO (final CoQ governs)",
+            "Documentation: SPA, CoQ/CoO, SGS/inspection as applicable",
+          ]}
+          ctaHref="/buyer-product-request"
+          ctaText="Submit AGO Request"
+        />
+      </section>
+
+      {/* What buyers must provide */}
+      <section className="rounded-2xl border border-white/10 bg-black/35 p-6 md:p-8">
+        <h3 className="text-lg font-extrabold text-white">
+          What a buyer must provide (to confirm parameters)
+        </h3>
+        <p className="mt-2 text-sm text-white/70 max-w-3xl">
+          We confirm availability, lifting size, and execution pathway after the
+          counterparty submits a structured request and demonstrates readiness.
+        </p>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
+              Minimum inputs
+            </div>
+            <ul className="mt-3 space-y-2 text-sm text-white/80">
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Product, volume, and delivery window
+              </li>
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Destination / discharge range (region/country)
+              </li>
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Corporate identity + signatory authority
+              </li>
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Indicative trade finance pathway (if applicable)
+              </li>
+            </ul>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
+              Outcome
+            </div>
+            <ul className="mt-3 space-y-2 text-sm text-white/80">
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Confirmed lifting size + scheduling logic
+              </li>
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Execution checklist + document pack alignment
+              </li>
+              <li className="flex gap-2">
+                <span className="text-emerald-400">•</span>
+                Clear next step: intake form → validation → execution desk
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Products Grid */}
-        <section
-          className="grid gap-6 md:grid-cols-2"
-          aria-label="Available products"
-        >
-          {products.map((p) => (
-            <article
-              key={p.name}
-              className="group rounded-2xl border border-neutral-800 bg-neutral-900/40 p-7 transition-all hover:border-neutral-700 hover:bg-neutral-900/60"
-            >
-              {/* Product Header */}
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3">
-                    <h2 className="text-xl font-semibold tracking-tight">
-                      {p.name}
-                    </h2>
-                    <span className="rounded-full bg-neutral-800 px-2.5 py-0.5 text-xs font-medium text-neutral-300">
-                      {p.category}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm text-neutral-400">{p.subtitle}</p>
-                </div>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link
+            href="/buyer-product-request"
+            className="inline-flex items-center justify-center rounded-xl bg-emerald-400 px-5 py-2.5 text-sm font-extrabold text-black hover:opacity-90 transition"
+          >
+            Open Buyer Request Form
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-black/30 px-5 py-2.5 text-sm font-bold text-white/90 hover:bg-black/40 transition"
+          >
+            Contact Execution Desk
+          </Link>
+        </div>
+      </section>
 
-                <span
-                  className="shrink-0 rounded-full border border-neutral-700 bg-neutral-950 px-3 py-1.5 text-xs font-medium text-neutral-300"
-                  aria-label="Export-focused product"
-                >
-                  Export
-                </span>
-              </div>
-
-              {/* Product Details */}
-              <ul className="mt-6 space-y-2.5 text-sm text-neutral-300" role="list">
-                {p.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-3">
-                    <svg
-                      className="mt-0.5 h-4 w-4 shrink-0 text-neutral-500"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span className="flex-1">{b}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Product Note */}
-              <div className="mt-6 rounded-xl border border-neutral-800 bg-neutral-950/80 p-4">
-                <p className="text-xs leading-relaxed text-neutral-400">{p.note}</p>
-              </div>
-            </article>
-          ))}
-        </section>
-
-        {/* Request Path + Inputs */}
-        <section
-          className="mt-12 rounded-2xl border border-neutral-800 bg-gradient-to-br from-neutral-900/40 to-neutral-900/20 p-8"
-          aria-labelledby="request-heading"
-        >
-          <h3 id="request-heading" className="text-base font-semibold text-neutral-100">
-            How to Request a Product Discussion
-          </h3>
-
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-neutral-300">
-            Provide the minimum commercial inputs below to begin eligibility review. A
-            KYB/KYC documentation pack and authorized signatory confirmation are typically
-            required to proceed. Where required by the seller/refinery, financial instruments
-            may include PB / deposit / LC / SBLC; such requirements remain the buyer’s
-            responsibility as a condition precedent to commercial progression.
-          </p>
-
-          <div className="mt-6 grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-neutral-800 bg-neutral-950/60 p-6">
-              <h4 className="text-sm font-medium text-neutral-100">Minimum Buyer Inputs</h4>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-neutral-300">
-                {minimumInputs.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="rounded-2xl border border-neutral-800 bg-neutral-950/60 p-6">
-              <h4 className="text-sm font-medium text-neutral-100">Process Discipline</h4>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-neutral-300">
-                <li>Documentation-first readiness gate</li>
-                <li>Seller/refinery eligibility alignment prior to commercial progression</li>
-                <li>FOB/CIF basis confirmed per transaction pathway</li>
-                <li>Scheduling and loadability subject to seller/refinery process</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/transaction-framework"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 bg-neutral-950 px-5 py-2.5 text-sm font-medium text-neutral-100 transition-colors hover:border-neutral-600 hover:bg-neutral-900"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              View Transaction Framework
-            </Link>
-
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-700 bg-neutral-100 px-5 py-2.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-white hover:border-neutral-600"
-            >
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-              Submit Buyer Request
-            </Link>
-
-            <Link
-              href="/documentation"
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-800 bg-neutral-950/40 px-5 py-2.5 text-sm font-medium text-neutral-200 transition-colors hover:bg-neutral-900/60 hover:border-neutral-700"
-            >
-              Documentation Requirements →
-            </Link>
-          </div>
-        </section>
-
-        <footer className="mt-12 rounded-xl border border-neutral-900 bg-neutral-950/50 p-5">
-          <p className="text-xs leading-relaxed text-neutral-500">
-            <strong className="font-medium text-neutral-400">Disclaimer:</strong> This page is
-            informational only and does not constitute an offer, allocation commitment, or binding
-            agreement. Availability, specifications, delivery basis (FOB/CIF), scheduling, and any
-            seller/refinery prerequisites (including, where applicable, PB/deposit/prepayment or
-            other financial instruments) are subject to seller/refinery process requirements and
-            counterparty readiness verification.
-          </p>
-        </footer>
-      </div>
+      {/* Disclaimer */}
+      <section className="text-xs text-white/55 leading-relaxed">
+        This products page is informational and supports preliminary commercial
+        discussions only. It does not constitute an offer, allocation commitment,
+        or binding agreement. Final terms are governed by executed transaction
+        documentation.
+      </section>
     </main>
   );
 }
