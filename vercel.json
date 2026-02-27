@@ -1,3 +1,10 @@
 {
-  "buildCommand": "next build"
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "simcolgroup.com" }],
+      "destination": "https://www.simcolgroup.com/$1",
+      "permanent": true
+    }
+  ]
 }
