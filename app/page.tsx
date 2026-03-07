@@ -124,7 +124,7 @@ export default function HomePage() {
           </div>
           <div style={{ maxWidth: "48rem", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
             <p style={{ color: "rgba(255,255,255,0.8)", lineHeight: "1.75", fontSize: "1rem" }}>
-              Simcol Petroleum Nigeria Limited (RC 1969739) is an NMDPRA-licensed petroleum trading and export company established in 2007. We specialise exclusively in the export of refined petroleum products — Jet A-1 aviation fuel and AGO (Automotive Gas Oil) — sourced from Nigerian refineries including the Dangote Refinery complex, the largest single-train refinery on the African continent.
+              Simcol Petroleum Nigeria Limited (RC 1969739) is an NMDPRA-licensed petroleum trading and export company established in 2007. We specialise exclusively in the export of refined petroleum products — Jet A-1 aviation fuel and AGO (Automotive Gas Oil) — sourced from Nigerian refineries including the Dangote Refinery complex, the largest single-train refinery on the world.
             </p>
             <p style={{ color: "rgba(255,255,255,0.8)", lineHeight: "1.75", fontSize: "1rem" }}>
               Our operations are structured around a Dubai-based execution desk that coordinates international buyer engagement, trade finance documentation, and cross-border settlement in alignment with global petroleum trading standards. This positions Simcol at the intersection of Nigerian refinery capacity and international institutional demand — a corridor that is growing rapidly as Nigeria transitions from a crude exporter to a refined products exporter.
