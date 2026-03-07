@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Products | Simcol Petroleum Nigeria Limited",
+  title: "Jet A-1 Aviation Fuel & AGO Export Nigeria | Simcol Petroleum",
   description:
-    "Jet A-1 and AGO export supply parameters: indicative specifications, lifting sizes, delivery basis, and execution process.",
+    "Export-grade Jet A-1 aviation fuel (ASTM D1655 / DEF STAN 91-091) and AGO Gas Oil (EN 590 / WAF Spec, 50ppm sulphur) from Nigeria. Institutional buyers only. Dubai execution desk. Refinery-aligned sourcing.",
 };
 
 function SpecRow({ label, value }: { label: string; value: string }) {
@@ -20,6 +20,7 @@ function SpecRow({ label, value }: { label: string; value: string }) {
 function Card({
   title,
   subtitle,
+  description,
   bullets,
   ctaHref,
   ctaText,
@@ -28,6 +29,7 @@ function Card({
 }: {
   title: string;
   subtitle: string;
+  description?: string;
   bullets: string[];
   ctaHref: string;
   ctaText: string;
@@ -43,6 +45,10 @@ function Card({
         {title}
       </h2>
       <p className="mt-2 text-sm text-white/70">{subtitle}</p>
+
+      {description && (
+        <p className="mt-3 text-sm text-white/75 leading-relaxed">{description}</p>
+      )}
 
       <ul className="mt-5 space-y-3 text-sm text-white/80">
         {bullets.map((b) => (
@@ -62,7 +68,7 @@ function Card({
         </Link>
 
         {specHref ? (
-          <a
+          
             href={specHref}
             target="_blank"
             rel="noopener noreferrer"
@@ -91,28 +97,29 @@ function Card({
 export default function ProductsPage() {
   return (
     <main className="relative z-10 mx-auto max-w-6xl px-6 py-14 space-y-10">
+
       {/* Header */}
       <section className="space-y-4">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-black/40 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-300/90">
           Export Supply Parameters
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
-          Refined Products (Export-Only)
+          Jet A-1 Aviation Fuel & AGO Gas Oil — Nigeria Export
         </h1>
         <p className="max-w-3xl text-sm md:text-base text-white/70 leading-relaxed">
-          We engage institutional counterparties for refinery-aligned exports.
-          Below are the commercial parameters buyers need to evaluate fit before
-          initiating the request and documentation process.
+          Simcol Petroleum Nigeria Limited exports two refined petroleum products
+          sourced from Nigerian refineries: Jet A-1 aviation turbine fuel and AGO
+          (Automotive Gas Oil) to West African specification. Both products are
+          available exclusively to institutional buyers through our Dubai execution
+          desk, on a principal-to-principal basis with full refinery-aligned
+          documentation.
         </p>
       </section>
 
       {/* Quick spec blocks */}
       <section className="grid gap-4 md:grid-cols-4">
         <SpecRow label="Transaction Basis" value="Principal-to-Principal" />
-        <SpecRow
-          label="Engagement Type"
-          value="Institutional / Verified Buyers"
-        />
+        <SpecRow label="Engagement Type" value="Institutional / Verified Buyers" />
         <SpecRow label="Execution" value="Dubai Execution Desk" />
         <SpecRow label="Request Intake" value="Private Link / Direct" />
       </section>
@@ -122,10 +129,11 @@ export default function ProductsPage() {
         <Card
           title="Jet A-1 (Aviation Turbine Fuel)"
           subtitle="Export supply with refinery-aligned documentation and disciplined execution."
+          description="Jet A-1 is an export-grade aviation kerosene meeting ASTM D1655 and DEF STAN 91-091 international specifications. Sourced from Nigerian refinery output, our Jet A-1 supply is intended for airline operators, aviation fueling companies, into-plane suppliers, and government aviation procurement entities across West Africa, Europe, the Middle East, and Asia."
           bullets={[
             "Delivery basis: FOB export corridors (confirmed during execution)",
             "Lifting size: institutional cargo programs (min volume confirmed per request)",
-            "Specs: typical Jet A-1 export grade (final CoQ governs)",
+            "Specs: ASTM D1655 / DEF STAN 91-091 export grade (final CoQ governs)",
             "Documentation: SPA, CoQ/CoO, SGS/inspection as applicable",
           ]}
           ctaHref="/buyer-product-request"
@@ -135,10 +143,11 @@ export default function ProductsPage() {
         <Card
           title="AGO (Gas Oil) — WAF Specification"
           subtitle="AGO supply aligned with West African market requirements and trade finance compliance."
+          description="AGO (Automotive Gas Oil) is exported to West African Specification (WAF Spec) and EN 590 standard, with a maximum sulphur content of 50ppm (Low Sulphur Gas Oil / LSGO). Available for institutional buyers including energy distributors, trading houses, and government procurement entities requiring bulk refined diesel for West African and international markets."
           bullets={[
             "Delivery basis: FOB export corridors (confirmed during execution)",
             "Lifting size: institutional cargo programs (min volume confirmed per request)",
-            "Specs: WAF spec GO (final CoQ governs)",
+            "Specs: EN 590 / WAF Spec GO, max 50ppm sulphur (final CoQ governs)",
             "Documentation: SPA, CoQ/CoO, SGS/inspection as applicable",
           ]}
           ctaHref="/buyer-product-request"
@@ -227,6 +236,7 @@ export default function ProductsPage() {
         or binding agreement. Final terms are governed by executed transaction
         documentation.
       </section>
+
     </main>
   );
 }
