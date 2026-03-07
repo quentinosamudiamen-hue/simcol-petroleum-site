@@ -9,9 +9,7 @@ export const metadata = {
 function SpecRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-1 rounded-xl border border-white/10 bg-black/35 p-4">
-      <div className="text-[11px] uppercase tracking-[0.18em] text-white/55">
-        {label}
-      </div>
+      <div className="text-[11px] uppercase tracking-[0.18em] text-white/55">{label}</div>
       <div className="text-sm font-semibold text-white/90">{value}</div>
     </div>
   );
@@ -38,18 +36,12 @@ function Card({
 }) {
   return (
     <div className="rounded-2xl border border-emerald-400/15 bg-black/40 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)]">
-      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300/80">
-        Product
-      </div>
-      <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-white">
-        {title}
-      </h2>
+      <div className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-300/80">Product</div>
+      <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-white">{title}</h2>
       <p className="mt-2 text-sm text-white/70">{subtitle}</p>
-
-      {description && (
+      {description ? (
         <p className="mt-3 text-sm text-white/75 leading-relaxed">{description}</p>
-      )}
-
+      ) : null}
       <ul className="mt-5 space-y-3 text-sm text-white/80">
         {bullets.map((b) => (
           <li key={b} className="flex gap-2">
@@ -58,7 +50,6 @@ function Card({
           </li>
         ))}
       </ul>
-
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href={ctaHref}
@@ -66,7 +57,6 @@ function Card({
         >
           {ctaText}
         </Link>
-
         {specHref ? (
           
             href={specHref}
@@ -77,7 +67,6 @@ function Card({
             {specText ?? "Download Specifications (PDF)"}
           </a>
         ) : null}
-
         <Link
           href="/transaction-framework"
           className="inline-flex items-center justify-center rounded-xl border border-white/15 bg-black/30 px-4 py-2 text-sm font-bold text-white/90 hover:bg-black/40 transition"
@@ -85,10 +74,8 @@ function Card({
           View Transaction Framework
         </Link>
       </div>
-
       <p className="mt-5 text-xs text-white/55">
-        Note: Specifications and availability are confirmed after buyer readiness
-        screening and formal request submission.
+        Note: Specifications and availability are confirmed after buyer readiness screening and formal request submission.
       </p>
     </div>
   );
@@ -97,14 +84,12 @@ function Card({
 export default function ProductsPage() {
   return (
     <main className="relative z-10 mx-auto max-w-6xl px-6 py-14 space-y-10">
-
-      {/* Header */}
       <section className="space-y-4">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-black/40 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-emerald-300/90">
           Export Supply Parameters
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
-          Jet A-1 Aviation Fuel & AGO Gas Oil — Nigeria Export
+          Jet A-1 Aviation Fuel {"&"} AGO Gas Oil — Nigeria Export
         </h1>
         <p className="max-w-3xl text-sm md:text-base text-white/70 leading-relaxed">
           Simcol Petroleum Nigeria Limited exports two refined petroleum products
@@ -116,7 +101,6 @@ export default function ProductsPage() {
         </p>
       </section>
 
-      {/* Quick spec blocks */}
       <section className="grid gap-4 md:grid-cols-4">
         <SpecRow label="Transaction Basis" value="Principal-to-Principal" />
         <SpecRow label="Engagement Type" value="Institutional / Verified Buyers" />
@@ -124,7 +108,6 @@ export default function ProductsPage() {
         <SpecRow label="Request Intake" value="Private Link / Direct" />
       </section>
 
-      {/* Products */}
       <section className="grid gap-6 md:grid-cols-2">
         <Card
           title="Jet A-1 (Aviation Turbine Fuel)"
@@ -139,7 +122,6 @@ export default function ProductsPage() {
           ctaHref="/buyer-product-request"
           ctaText="Submit Jet A-1 Request"
         />
-
         <Card
           title="AGO (Gas Oil) — WAF Specification"
           subtitle="AGO supply aligned with West African market requirements and trade finance compliance."
@@ -157,7 +139,6 @@ export default function ProductsPage() {
         />
       </section>
 
-      {/* What buyers must provide */}
       <section className="rounded-2xl border border-white/10 bg-black/35 p-6 md:p-8">
         <h3 className="text-lg font-extrabold text-white">
           What a buyer must provide (to confirm parameters)
@@ -166,53 +147,25 @@ export default function ProductsPage() {
           We confirm availability, lifting size, and execution pathway after the
           counterparty submits a structured request and demonstrates readiness.
         </p>
-
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div className="rounded-xl border border-white/10 bg-black/30 p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
-              Minimum inputs
-            </div>
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">Minimum inputs</div>
             <ul className="mt-3 space-y-2 text-sm text-white/80">
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Product, volume, and delivery window
-              </li>
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Destination / discharge range (region/country)
-              </li>
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Corporate identity + signatory authority
-              </li>
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Indicative trade finance pathway (if applicable)
-              </li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Product, volume, and delivery window</li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Destination / discharge range (region/country)</li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Corporate identity + signatory authority</li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Indicative trade finance pathway (if applicable)</li>
             </ul>
           </div>
-
           <div className="rounded-xl border border-white/10 bg-black/30 p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
-              Outcome
-            </div>
+            <div className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">Outcome</div>
             <ul className="mt-3 space-y-2 text-sm text-white/80">
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Confirmed lifting size + scheduling logic
-              </li>
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Execution checklist + document pack alignment
-              </li>
-              <li className="flex gap-2">
-                <span className="text-emerald-400">•</span>
-                Clear next step: intake form → validation → execution desk
-              </li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Confirmed lifting size + scheduling logic</li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Execution checklist + document pack alignment</li>
+              <li className="flex gap-2"><span className="text-emerald-400">•</span>Clear next step: intake form → validation → execution desk</li>
             </ul>
           </div>
         </div>
-
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
             href="/buyer-product-request"
@@ -229,14 +182,12 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      {/* Disclaimer */}
       <section className="text-xs text-white/55 leading-relaxed">
         This products page is informational and supports preliminary commercial
         discussions only. It does not constitute an offer, allocation commitment,
         or binding agreement. Final terms are governed by executed transaction
         documentation.
       </section>
-
     </main>
   );
 }
