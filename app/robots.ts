@@ -12,6 +12,8 @@ export default function robots(): MetadataRoute.Robots {
           "/buyer-product-request",
           "/buyer-product-request/",
           "/buyer-product-request/received",
+          "/blog",                              // ← ADDED: blocks spam blog from re-crawl
+          "/blog/",
         ],
       },
     ],

@@ -6,5 +6,11 @@
       "destination": "https://www.simcolgroup.com/$1",
       "permanent": true
     }
+  ],
+  "headers": [
+    {
+      "source": "/blog/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
   ]
 }

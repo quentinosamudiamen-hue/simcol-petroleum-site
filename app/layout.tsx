@@ -5,23 +5,8 @@ import "./globals.css";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 
-/* ------------------------------------------------------------------ */
-/* FONTS                                                              */
-/* ------------------------------------------------------------------ */
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-/* ------------------------------------------------------------------ */
-/* SITE CONFIGURATION                                                 */
-/* ------------------------------------------------------------------ */
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 const SITE = {
   name: "Simcol Petroleum",
@@ -32,40 +17,46 @@ const SITE = {
   email: "commercial@simcolgroup.com",
   locale: "en_US",
   twitter: "@simcolgroup",
-  ogImage: "/og-image.jpg", // must exist in /public
+  ogImage: "/brand/og-image.png", // ← FIXED: was /og-image.jpg (file didn't exist)
 };
-
-/* ------------------------------------------------------------------ */
-/* GLOBAL METADATA                                                    */
-/* ------------------------------------------------------------------ */
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-
   title: {
-    default: `${SITE.name} | Dubai Execution Desk`,
-    template: `%s | ${SITE.name}`,
+    default: `${SITE.legalName} | Dubai Execution Desk`,
+    template: `%s | ${SITE.legalName}`,
   },
-
   description:
     "NMDPRA-licensed petroleum export trading. Refinery-aligned Jet A-1 and AGO (WAF specification) exports from Nigeria via Dubai execution desk. Principal-to-principal transactions with institutional documentation.",
-
   applicationName: SITE.name,
-
   keywords: [
-    "Nigerian petroleum export",
+    // Brand
+    "Simcol Petroleum Nigeria Limited",
+    "Simcol Group",
+    "RC 1969739",
+    // Core commercial
+    "Nigerian petroleum export company",
     "Jet A-1 export Nigeria",
+    "Jet A-1 aviation fuel supplier Nigeria",
     "AGO export Nigeria",
+    "automotive gas oil Nigeria",
     "WAF specification gas oil",
+    "diesel export Nigeria",
+    // Spec terms buyers search
+    "ASTM D1655",
+    "DEF STAN 91-091",
+    "EN 590 gas oil",
+    // Positioning
     "Dubai petroleum trading desk",
     "NMDPRA licensed exporter",
+    "Dangote Refinery export",
+    "West Africa petroleum export",
     "principal-to-principal petroleum trading",
+    "institutional petroleum buyer",
   ],
-
   alternates: {
     canonical: `${SITE.url}/`,
   },
-
   robots: {
     index: true,
     follow: true,
@@ -77,13 +68,12 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-
   openGraph: {
     type: "website",
     url: SITE.url,
     siteName: SITE.name,
     locale: SITE.locale,
-    title: `${SITE.name} | Dubai Execution Desk`,
+    title: `${SITE.legalName} | Dubai Execution Desk`,
     description:
       "Export-focused refined product trading: Jet A-1 and AGO (WAF specification). Compliance-first, principal-only engagement.",
     images: [
@@ -91,40 +81,28 @@ export const metadata: Metadata = {
         url: SITE.ogImage,
         width: 1200,
         height: 630,
-        alt: `${SITE.name} — Dubai Execution Desk`,
+        alt: `${SITE.legalName} — Jet A-1 & AGO Export | Dubai Execution Desk`,
       },
     ],
   },
-
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} | Dubai Execution Desk`,
+    title: `${SITE.legalName} | Dubai Execution Desk`,
     description:
       "NMDPRA-licensed petroleum export trading. Jet A-1 and AGO (WAF specification). Dubai execution desk.",
     images: [SITE.ogImage],
   },
-
   creator: SITE.legalName,
   publisher: SITE.legalName,
-
-  // ✅ FIX: provide BOTH PNG + ICO + apple icon so every browser picks correctly
-  // Required files:
-  //  - public/favicon.png
-  //  - public/favicon.ico
-  //  - public/apple-touch-icon.png  (or Next app route icon: app/apple-icon.png)
   icons: {
     icon: [
-      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
       { url: "/favicon.ico", type: "image/x-icon" },
     ],
     shortcut: ["/favicon.ico"],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
 };
-
-/* ------------------------------------------------------------------ */
-/* ORG SCHEMA (JSON-LD)                                               */
-/* ------------------------------------------------------------------ */
 
 function OrganizationJsonLd() {
   const jsonLd = {
@@ -134,8 +112,23 @@ function OrganizationJsonLd() {
     legalName: SITE.legalName,
     url: SITE.url,
     brand: SITE.name,
+    foundingDate: "2007",                    // ← ADDED
+    identifier: {                            // ← ADDED: RC number as structured data
+      "@type": "PropertyValue",
+      name: "RC Number",
+      value: "1969739",
+    },
     description:
       "NMDPRA-licensed petroleum export trading company. Refinery-aligned Jet A-1 and AGO (WAF specification) exports from Nigeria via Dubai execution desk.",
+    knowsAbout: [                            // ← ADDED: topical authority signals
+      "Jet A-1 Aviation Fuel Export",
+      "AGO Gas Oil Export",
+      "Refined Petroleum Products Nigeria",
+      "Dangote Refinery Supply Chain",
+      "West Africa Petroleum Trade",
+      "NMDPRA Export Licensing",
+      "International Petroleum Documentation",
+    ],
     contactPoint: [
       {
         "@type": "ContactPoint",
@@ -143,13 +136,26 @@ function OrganizationJsonLd() {
         contactType: "Sales",
         email: SITE.email,
         availableLanguage: ["English"],
+        areaServed: ["NG", "GH", "AE", "GB", "SG", "ZA", "KE"],  // ← ADDED
       },
     ],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Dubai",
-      addressCountry: "AE",
-    },
+    address: [
+      {
+        "@type": "PostalAddress",
+        addressLocality: "Dubai",
+        addressCountry: "AE",
+        description: "Execution Desk",
+      },
+      {
+        "@type": "PostalAddress",       // ← ADDED: registered entity address
+        addressCountry: "NG",
+        description: "Registered Entity",
+      },
+    ],
+    sameAs: [
+      // "https://www.linkedin.com/company/simcol-petroleum-nigeria-limited",
+      // ← uncomment and add URL once LinkedIn company page is created
+    ],
   };
 
   return (
@@ -160,10 +166,6 @@ function OrganizationJsonLd() {
     />
   );
 }
-
-/* ------------------------------------------------------------------ */
-/* ROOT LAYOUT                                                        */
-/* ------------------------------------------------------------------ */
 
 export default function RootLayout({
   children,
