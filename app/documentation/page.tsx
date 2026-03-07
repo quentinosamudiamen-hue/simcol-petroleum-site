@@ -6,12 +6,12 @@ import Link from "next/link";
 /* ------------------------------------------------------------------ */
 
 export const metadata: Metadata = {
-  title: "Documentation | Simcol Petroleum",
+  title: "Export Documentation Requirements | Jet A-1 and AGO Nigeria | Simcol Petroleum",
   description:
-    "Buyer submission requirements, readiness items, and process notes for export-focused refined product transactions via Simcol Petroleum Nigeria Limited (Dubai Execution Desk).",
+    "Documentation requirements for Nigerian petroleum export: SPA, Certificate of Quality (CoQ), Certificate of Origin, Bill of Lading, and NMDPRA export permit. Jet A-1 and AGO institutional buyers.",
   alternates: { canonical: "/documentation" },
   openGraph: {
-    title: "Documentation | Simcol Petroleum",
+    title: "Export Documentation Requirements | Jet A-1 and AGO Nigeria | Simcol Petroleum",
     description:
       "Buyer submission requirements, readiness items, and process notes for export-focused refined product transactions.",
     url: "/documentation",

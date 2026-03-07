@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Transaction Framework | Simcol Petroleum",
+  title: "Petroleum Export Transaction Framework | Nigeria to International | Simcol",
   description:
-    "Refinery-aligned buyer engagement and execution flow for export-focused refined product transactions via Simcol Petroleum Nigeria Limited (Dubai Execution Desk).",
+    "Simcol Petroleum transaction framework for institutional Jet A-1 and AGO export: buyer engagement, SPA execution, CoQ/CoO documentation, and NMDPRA compliance. Dubai execution desk.",
   alternates: { canonical: "/transaction-framework" },
   openGraph: {
-    title: "Transaction Framework | Simcol Petroleum",
+    title: "Petroleum Export Transaction Framework | Nigeria to International | Simcol",
     description: "Refinery-aligned buyer engagement and execution flow for export-focused refined product transactions.",
     url: "/transaction-framework",
     type: "website",
