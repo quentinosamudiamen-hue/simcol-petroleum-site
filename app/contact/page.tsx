@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import ContactClient from "./ContactClient";
 
 export const metadata: Metadata = {
-  title: "Contact | Simcol Petroleum",
+  title: "Contact Simcol Petroleum | Nigeria Petroleum Export Enquiries | Dubai Execution Desk",
   description:
-    "Buyer submission desk for export-focused refined product requests via Dubai execution desk. For institutional supply inquiries and commercial coordination, please contact the Dubai execution desk.",
+    "Submit institutional petroleum supply enquiries to Simcol Petroleum Nigeria Limited. Jet A-1 and AGO export requests handled via Dubai execution desk. Principal-to-principal engagement only.",
 };
 
 export default function ContactPage() {
