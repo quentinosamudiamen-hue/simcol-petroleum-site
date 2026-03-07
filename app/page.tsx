@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/brand/og-image.png",   // ← FIXED
         width: 1200,
         height: 630,
         alt: "Simcol Petroleum — Dubai Execution Desk",
@@ -29,13 +29,15 @@ export const metadata: Metadata = {
     title: "Nigerian Petroleum Export | Jet A-1 & AGO | Dubai Execution Desk",
     description:
       "NMDPRA-licensed petroleum export trading. Jet A-1 and AGO (WAF specification). Dubai execution desk.",
-    images: ["/og-image.jpg"],
+    images: ["/brand/og-image.png"],  // ← FIXED
   },
 };
 
 export default function HomePage() {
   return (
     <main className="relative z-10 bg-transparent max-w-4xl mx-auto px-6 py-16 space-y-14">
+
+      {/* HERO */}
       <section className="simcol-fullbleed">
         <section className="simcol-hero" role="region" aria-labelledby="hero-heading">
           <div className="simcol-hero-bg" style={{ backgroundImage: `url("/brand/banner-bg.jpg")` }} aria-hidden="true" />
@@ -113,6 +115,61 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── NEW: ABOUT THE COMPANY ──────────────────────────────────────────── */}
+      <section className="simcol-section" aria-labelledby="about-heading">
+        <div className="simcol-container">
+          <div className="simcol-section-header">
+            <div className="simcol-tag">About</div>
+            <h2 id="about-heading" className="simcol-title">Nigeria's Export-Only Petroleum Operator</h2>
+          </div>
+          <div style={{ maxWidth: "48rem", margin: "0 auto", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            <p style={{ color: "rgba(255,255,255,0.8)", lineHeight: "1.75", fontSize: "1rem" }}>
+              Simcol Petroleum Nigeria Limited (RC 1969739) is an NMDPRA-licensed petroleum trading and export company established in 2007. We specialise exclusively in the export of refined petroleum products — Jet A-1 aviation fuel and AGO (Automotive Gas Oil) — sourced from Nigerian refineries including the Dangote Refinery complex, the largest single-train refinery on the African continent.
+            </p>
+            <p style={{ color: "rgba(255,255,255,0.8)", lineHeight: "1.75", fontSize: "1rem" }}>
+              Our operations are structured around a Dubai-based execution desk that coordinates international buyer engagement, trade finance documentation, and cross-border settlement in alignment with global petroleum trading standards. This positions Simcol at the intersection of Nigerian refinery capacity and international institutional demand — a corridor that is growing rapidly as Nigeria transitions from a crude exporter to a refined products exporter.
+            </p>
+            <p style={{ color: "rgba(255,255,255,0.8)", lineHeight: "1.75", fontSize: "1rem" }}>
+              We do not participate in domestic Nigerian fuel distribution, retail operations, or crude oil trading. Every transaction is export-only, principal-to-principal, with institutional documentation standards applied across all counterparty engagements.
+            </p>
+            <div style={{ marginTop: "0.5rem" }}>
+              <Link href="/about" className="simcol-card-link">Learn more about Simcol →</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── NEW: PRODUCTS OVERVIEW ──────────────────────────────────────────── */}
+      <section className="simcol-section gray" aria-labelledby="products-heading">
+        <div className="simcol-container">
+          <div className="simcol-section-header">
+            <div className="simcol-tag">Products</div>
+            <h2 id="products-heading" className="simcol-title">Jet A-1 & AGO — Export Grade</h2>
+            <p className="simcol-subtitle">
+              Both products are sourced from refinery-aligned supply chains and delivered under internationally recognised specification standards.
+            </p>
+          </div>
+          <div className="simcol-grid-2">
+            <div className="simcol-card">
+              <div className="simcol-card-num">Jet A-1</div>
+              <div className="simcol-card-title">Aviation Fuel Export</div>
+              <div className="simcol-card-desc">
+                Export-grade Jet A-1 kerosene meeting ASTM D1655 and DEF STAN 91-091 international aviation specifications. Sourced from Nigerian refinery output for delivery to airline operators, aviation fueling companies, and government aviation buyers across West Africa, Europe, and Asia.
+              </div>
+              <Link href="/products" className="simcol-card-link">View Jet A-1 specification →</Link>
+            </div>
+            <div className="simcol-card">
+              <div className="simcol-card-num">AGO</div>
+              <div className="simcol-card-title">Gas Oil Export</div>
+              <div className="simcol-card-desc">
+                Automotive Gas Oil (AGO) meeting EN 590 and West African Specification (WAF Spec) standards. Maximum 50ppm sulphur content. Available in export lot sizes for institutional buyers including energy distributors, trading houses, and government procurement entities.
+              </div>
+              <Link href="/products" className="simcol-card-link">View AGO specification →</Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* HOW WE WORK */}
       <section className="simcol-section gray" aria-labelledby="process-heading">
         <div className="simcol-container">
@@ -153,6 +210,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
     </main>
   );
 }
