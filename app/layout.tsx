@@ -153,8 +153,7 @@ function OrganizationJsonLd() {
       },
     ],
     sameAs: [
-      // "https://www.linkedin.com/company/simcol-petroleum-nigeria-limited",
-      // ← uncomment and add URL once LinkedIn company page is created
+      "https://www.linkedin.com/company/625824",
     ],
   };
 
