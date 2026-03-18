@@ -68,7 +68,7 @@ function Card({
         </Link>
 
         {specHref ? (
-          
+          <a
             href={specHref}
             target="_blank"
             rel="noopener noreferrer"
