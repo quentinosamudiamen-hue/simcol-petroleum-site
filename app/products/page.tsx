@@ -155,7 +155,7 @@ export default function ProductsPage() {
           ctaHref="/buyer-product-request"
           ctaText="Submit AGO Request"
           specHref="/specs/simcol-lsgo-sample.pdf"
-          specText="Download AGO Export Specifications (LSGO 50ppm)"
+          specText="Download AGO Specs (LSGO 50ppm)"
         />
       </section>
 
