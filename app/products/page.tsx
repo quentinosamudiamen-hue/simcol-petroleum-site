@@ -68,7 +68,7 @@ function Card({
         </Link>
 
         {specHref ? (
-          <a
+          
             href={specHref}
             target="_blank"
             rel="noopener noreferrer"
@@ -104,7 +104,7 @@ export default function ProductsPage() {
           Export Supply Parameters
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
-          Jet A-1 Aviation Fuel & AGO Gas Oil — Nigeria Export
+          Jet A-1 Aviation Fuel &amp; AGO Gas Oil — Nigeria Export
         </h1>
         <p className="max-w-3xl text-sm md:text-base text-white/70 leading-relaxed">
           Simcol Petroleum Nigeria Limited exports two refined petroleum products
@@ -138,6 +138,8 @@ export default function ProductsPage() {
           ]}
           ctaHref="/buyer-product-request"
           ctaText="Submit Jet A-1 Request"
+          specHref="/specs/simcol-jet-a1-sample-coq.pdf"
+          specText="Download Sample CoQ (Jet A-1)"
         />
 
         <Card
