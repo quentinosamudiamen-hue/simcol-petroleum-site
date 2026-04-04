@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tier-6 | Autonomous Trading System</title>
+  <meta name="description" content="Tier-6 is a fully autonomous crypto futures trading system. Multi-layer signal filtering, machine learning scoring, and 24/7 execution." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0a0f1e;
+      --navy-mid: #0f1729;
+      --navy-light: #162040;
+      --blue: #2563eb;
+      --blue-bright: #3b82f6;
+      --gold: #c8a951;
+      --gold-light: #e0c06a;
+      --white: #f0f4ff;
+      --muted: #6b7fa3;
+      --border: rgba(255,255,255,0.06);
+      --glow: rgba(37,99,235,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Glow orbs ── */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb-1 { width: 600px; height: 600px; background: rgba(37,99,235,0.12); top: -200px; right: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(200,169,81,0.07); bottom: 100px; left: -100px; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(10,15,30,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--blue) !important;
+      color: var(--white) !important;
+      padding: 8px 20px !important;
+      border-radius: 4px !important;
+      font-size: 0.72rem !important;
+      letter-spacing: 0.08em !important;
+    }
+    .nav-cta:hover { background: var(--blue-bright) !important; }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-bright);
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--blue-bright);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-title .t6 { color: var(--white); }
+    .hero-title .dash { color: var(--gold); }
+    .hero-title .num { color: var(--blue-bright); }
+
+    .hero-sub {
+      font-family: 'Syne', sans-serif;
+      font-weight: 400;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 48px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .stat {
+      text-align: center;
+    }
+    .stat-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--white);
+      display: block;
+    }
+    .stat-val.gold { color: var(--gold); }
+    .stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+      display: block;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.4s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blue);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--blue-bright); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border-radius: 4px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-1px); }
+
+    /* ── Ticker ── */
+    .ticker-wrap {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      background: rgba(15,23,41,0.6);
+      padding: 12px 0;
+    }
+    .ticker {
+      display: flex;
+      gap: 0;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 40px;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .ticker-item .dot { width: 4px; height: 4px; background: var(--gold); border-radius: 50%; }
+    .ticker-item strong { color: var(--white); }
+
+    /* ── Sections ── */
+    section {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 24px;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-size: 0.88rem;
+      line-height: 1.9;
+      color: var(--muted);
+      max-width: 620px;
+    }
+
+    /* ── How it works ── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2px;
+      margin-top: 60px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .how-card {
+      background: var(--navy-mid);
+      padding: 40px 36px;
+      position: relative;
+      transition: background 0.2s;
+    }
+    .how-card:hover { background: var(--navy-light); }
+
+    .how-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(37,99,235,0.15);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .how-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .how-body {
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    /* ── PDF section ── */
+    .pdf-section {
+      background: var(--navy-mid);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 60px;
+    }
+
+    .pdf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .pdf-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .pdf-meta {
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .pdf-embed {
+      width: 100%;
+      height: 700px;
+      border: none;
+      display: block;
+      background: #1a1a2e;
+    }
+
+    .pdf-fallback {
+      padding: 60px 32px;
+      text-align: center;
+    }
+
+    /* ── Contact ── */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row { display: flex; gap: 16px; }
+    .form-row .field { flex: 1; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field label {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.82rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--blue);
+    }
+
+    .field textarea { resize: vertical; min-height: 120px; }
+
+    .field select option { background: var(--navy-mid); }
+
+    .form-submit {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .form-note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 4px;
+    }
+
+    .form-success {
+      display: none;
+      background: rgba(37,99,235,0.1);
+      border: 1px solid rgba(37,99,235,0.3);
+      border-radius: 4px;
+      padding: 20px 24px;
+      font-size: 0.82rem;
+      color: var(--blue-bright);
+      line-height: 1.7;
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .footer-logo span { color: var(--gold); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    .footer-copy {
+      font-size: 0.65rem;
+      color: rgba(107,127,163,0.5);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      position: relative;
+      z-index: 1;
+      height: 1px;
+      background: var(--border);
+      max-width: 100%;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      section { padding: 60px 20px; }
+      footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+      .hero-stats { gap: 28px; }
+      .form-row { flex-direction: column; }
+    }
+
+    /* Fade in on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="https://simcolgroup.com" class="nav-logo">SIMCOL <span>GROUP</span></a>
+    <div class="nav-links">
+      <a href="#how-it-works">How It Works</a>
+      <a href="#overview">Overview</a>
+      <a href="#contact" class="nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">Now open to external accounts</div>
+    <h1 class="hero-title">
+      <span class="t6">TIER</span><span class="dash">-</span><span class="num">6</span>
+    </h1>
+    <p class="hero-sub">Autonomous Crypto Futures Trading System</p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-val">24/7</span>
+        <span class="stat-label">Always On</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">15</span>
+        <span class="stat-label">Asset Universe</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val gold">0</span>
+        <span class="stat-label">Manual Intervention</span>
+      </div>
+      <div class="stat">
+        <span class="stat-val">7+</span>
+        <span class="stat-label">Signal Layers</span>
+      </div>
+    </div>
+
+    <div class="hero-cta-group">
+      <a href="#overview" class="btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+        View Overview
+      </a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+
+  <!-- Ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span class="ticker-item"><span class="dot"></span> <strong>BTC</strong> Regime Gated</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>ML</strong> Scoring Active</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Capital</strong> Rotation Engine</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Breadth</strong> Filtering Live</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Breakeven</strong> Shift System</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>9</strong> Thematic Clusters</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Non-Custodial</strong> Model</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Performance</strong> Based Fees</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item"><span class="dot"></span> <strong>BTC</strong> Regime Gated</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>ML</strong> Scoring Active</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Capital</strong> Rotation Engine</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Breadth</strong> Filtering Live</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Breakeven</strong> Shift System</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>9</strong> Thematic Clusters</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Non-Custodial</strong> Model</span>
+      <span class="ticker-item"><span class="dot"></span> <strong>Performance</strong> Based Fees</span>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <section id="how-it-works">
+    <div class="reveal">
+      <p class="section-label">How It Works</p>
+      <h2 class="section-title">Built to trade when<br>conditions are right.<br>And wait when they aren't.</h2>
+      <p class="section-body">Every trade passes through a layered decision framework before a single dollar is committed. Discipline is the architecture.</p>
+    </div>
+
+    <div class="how-grid reveal">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">Market Regime Detection</div>
+        <div class="how-body">The system continuously reads broad market conditions to establish directional bias, suppressing trades that run counter to prevailing momentum.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">Machine Learning Scoring</div>
+        <div class="how-body">Every trade candidate is evaluated by a trained ML model. Only signals exceeding a proprietary confidence threshold are passed for execution.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">Breadth Filtering</div>
+        <div class="how-body">Market-wide participation is measured across the full asset universe. Trades are blocked when breadth conditions indicate overcrowded positioning.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-title">Cluster Risk Management</div>
+        <div class="how-body">Assets are organised into thematic clusters. Exposure within each cluster is capped, preventing overconcentration in any correlated group.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">05</div>
+        <div class="how-title">Capital Rotation</div>
+        <div class="how-body">When fully deployed, the system evaluates live P&L across open positions and selectively closes underperformers to free margin for higher-conviction opportunities.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">06</div>
+        <div class="how-title">Automated Position Protection</div>
+        <div class="how-body">Once a position reaches a defined profitability milestone, the stop-loss automatically advances to entry price, locking in a risk-free trade.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PDF Overview -->
+  <section id="overview">
+    <div class="reveal">
+      <p class="section-label">Executive Overview</p>
+      <h2 class="section-title">Read the full system brief</h2>
+      <p class="section-body">Everything you need to understand how Tier-6 works, what it offers, and how to get started.</p>
+    </div>
+
+    <div class="pdf-section reveal">
+      <div class="pdf-header">
+        <span class="pdf-title">Tier-6 Executive Summary</span>
+        <div style="display:flex;gap:16px;align-items:center;">
+          <span class="pdf-meta">April 2026 · Simcol Group</span>
+          <a href="Tier6_Executive_Summary_Commercial.pdf" download class="btn-primary" style="padding:10px 20px;font-size:0.72rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download PDF
+          </a>
+        </div>
+      </div>
+      <iframe
+        src="Tier6_Executive_Summary_Commercial.pdf"
+        class="pdf-embed"
+        title="Tier-6 Executive Summary">
+        <div class="pdf-fallback">
+          <p style="color:var(--muted);font-size:0.85rem;margin-bottom:20px;">Your browser doesn't support inline PDF viewing.</p>
+          <a href="Tier6_Executive_Summary_Commercial.pdf" download class="btn-primary">Download the PDF</a>
+        </div>
+      </iframe>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="reveal">
+        <p class="section-label">Get Started</p>
+        <h2 class="section-title">Ready to learn more?</h2>
+        <p class="section-body" style="margin-bottom:32px;">Tier-6 is open to qualified accounts on a performance-based, non-custodial basis. Drop your details and we will be in touch within 24 hours.</p>
+
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;background:rgba(37,99,235,0.12);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.67a16 16 0 006.72 6.72l1.06-1.28a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">Response Time</div>
+              <div style="font-size:0.82rem;color:var(--white);">Within 24 hours</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;background:rgba(200,169,81,0.1);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c8a951" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">Your Funds</div>
+              <div style="font-size:0.82rem;color:var(--white);">Always in your control. Non-custodial.</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="width:36px;height:36px;background:rgba(37,99,235,0.12);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            </div>
+            <div>
+              <div style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">Fee Structure</div>
+              <div style="font-size:0.82rem;color:var(--white);">Performance-based. We win when you win.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="field">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="fname" placeholder="Simon" required />
+            </div>
+            <div class="field">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="lname" placeholder="Guobadia" required />
+            </div>
+          </div>
+          <div class="field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" placeholder="UAE, Nigeria, UK..." />
+          </div>
+          <div class="field">
+            <label for="message">Tell us a little about yourself (optional)</label>
+            <textarea id="message" name="message" placeholder="Your trading background, capital range, questions..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Enquiry</button>
+          <p class="form-note">No spam. No pressure. Just a conversation.</p>
+          <div class="form-success" id="formSuccess">
+            Thank you. We have received your enquiry and will be in touch within 24 hours.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">SIMCOL <span>GROUP</span> · TIER-6</div>
+    <div class="footer-links">
+      <a href="https://simcolgroup.com">Main Site</a>
+      <a href="#contact">Contact</a>
+      <a href="Tier6_Executive_Summary_Commercial.pdf" download>Download PDF</a>
+    </div>
+    <div class="footer-copy">© 2026 Simcol Group. Dubai, UAE.</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Form submit (Formspree-ready — replace YOUR_FORM_ID)
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.form-submit');
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+
+      // Swap with Formspree fetch when live:
+      // fetch('https://formspree.io/f/YOUR_FORM_ID', { method:'POST', body: new FormData(this), headers:{'Accept':'application/json'} })
+
+      setTimeout(() => {
+        document.getElementById('formSuccess').style.display = 'block';
+        this.reset();
+        btn.style.display = 'none';
+      }, 800);
+    });
+  </script>
+</body>
+</html>
