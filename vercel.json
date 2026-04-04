@@ -6,12 +6,13 @@
       "has": [{ "type": "host", "value": "simcolgroup.com" }],
       "destination": "https://www.simcolgroup.com/$1",
       "permanent": true
-    },
+    }
+  ],
+  "rewrites": [
     {
       "source": "/",
       "has": [{ "type": "host", "value": "tier6.simcolgroup.com" }],
-      "destination": "/tier6",
-      "permanent": false
+      "destination": "/tier6"
     }
   ],
   "headers": [
