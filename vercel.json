@@ -1,10 +1,17 @@
-{"buildCommand": "next build",
+{
+  "buildCommand": "next build",
   "redirects": [
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "simcolgroup.com" }],
       "destination": "https://www.simcolgroup.com/$1",
       "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "tier6.simcolgroup.com" }],
+      "destination": "/tier6",
+      "permanent": false
     }
   ],
   "headers": [
