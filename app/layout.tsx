@@ -167,10 +167,10 @@ function OrganizationJsonLd() {
   );
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const headersList = headers();
+  const headersList = await headers();
   const host = headersList.get('host') || '';
   const isTier6 = host.startsWith('tier6.');
 
