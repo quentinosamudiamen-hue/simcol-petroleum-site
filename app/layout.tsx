@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from 'next/headers';
 import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -169,13 +170,17 @@ function OrganizationJsonLd() {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const headersList = headers();
+  const host = headersList.get('host') || '';
+  const isTier6 = host.startsWith('tier6.');
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <OrganizationJsonLd />
-        <Nav />
+        {!isTier6 && <Nav />}
         {children}
-        <Footer />
+        {!isTier6 && <Footer />}
       </body>
     </html>
   );
