@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tier-6 | Client Eligibility</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a0f1e; --navy-mid: #0f1729; --navy-light: #162040;
+      --blue: #2563eb; --blue-bright: #3b82f6; --blue-dim: rgba(37,99,235,0.12);
+      --gold: #c8a951; --gold-light: #e0c06a;
+      --white: #ffffff; --muted: #a8bbd4;
+      --border: rgba(255,255,255,0.06);
+      --success: #10b981; --danger: #ef4444;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--navy); color: var(--white); font-family: 'DM Mono', monospace; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px); background-size: 60px 60px; pointer-events: none; z-index: 0; }
+    .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+    .orb-1 { width: 600px; height: 600px; background: rgba(37,99,235,0.10); top: -200px; right: -100px; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(200,169,81,0.06); bottom: 100px; left: -100px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(10,15,30,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-back { font-size: 0.7rem; letter-spacing: 0.1em; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; display: flex; align-items: center; gap: 8px; }
+    .nav-back:hover { color: var(--white); }
+
+    /* MAIN */
+    main { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 120px 24px 60px; min-height: 100vh; }
+
+    /* PROGRESS */
+    .progress-wrap { width: 100%; max-width: 540px; margin-bottom: 48px; }
+    .progress-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .progress-step { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+    .progress-count { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--muted); }
+    .progress-bar { height: 2px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--gold)); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+
+    /* CARD */
+    .card { width: 100%; max-width: 540px; background: var(--navy-mid); border: 1px solid var(--border); border-radius: 2px; padding: 48px 44px; animation: slideUp 0.4s ease both; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .step-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
+    .step-title { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+    .step-sub { font-size: 0.78rem; color: var(--muted); line-height: 1.8; margin-bottom: 36px; }
+
+    /* FIELDS */
+    .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .field label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .field select, .field input { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; padding: 14px 16px; color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.82rem; outline: none; transition: border-color 0.2s, background 0.2s; width: 100%; appearance: none; -webkit-appearance: none; }
+    .field select:focus, .field input:focus { border-color: var(--blue); background: rgba(37,99,235,0.06); }
+    .field select option { background: var(--navy-mid); color: var(--white); }
+    .select-wrap { position: relative; }
+    .select-wrap::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; font-size: 0.8rem; }
+
+    /* OPTION CARDS */
+    .options-grid { display: grid; gap: 10px; margin-bottom: 8px; }
+    .options-grid.col2 { grid-template-columns: 1fr 1fr; }
+    .option-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 2px; padding: 18px 20px; cursor: pointer; transition: all 0.2s; position: relative; }
+    .option-card:hover { border-color: rgba(37,99,235,0.4); background: rgba(37,99,235,0.06); }
+    .option-card.selected { border-color: var(--blue); background: rgba(37,99,235,0.10); }
+    .option-card input[type="radio"] { position: absolute; opacity: 0; }
+    .option-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+    .option-desc { font-size: 0.68rem; color: var(--muted); line-height: 1.6; }
+    .option-card.selected .option-title { color: var(--blue-bright); }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 12px; margin-top: 36px; }
+    .btn-primary { flex: 1; background: var(--blue); color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 24px; border: none; border-radius: 2px; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+    .btn-primary:hover { background: var(--blue-bright); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-secondary { background: transparent; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 16px 24px; border: 1px solid rgba(255,255,255,0.12); border-radius: 2px; cursor: pointer; transition: all 0.2s; }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.3); color: var(--white); }
+
+    /* DISCLAIMER */
+    .disclaimer { font-size: 0.65rem; color: rgba(168,187,212,0.5); line-height: 1.7; margin-top: 20px; }
+
+    /* DECLINE SCREEN */
+    .decline-icon { width: 56px; height: 56px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; font-size: 1.4rem; }
+    .decline-title { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; }
+    .decline-body { font-size: 0.8rem; color: var(--muted); line-height: 1.9; margin-bottom: 28px; }
+    .waitlist-field { display: flex; gap: 10px; margin-bottom: 16px; }
+    .waitlist-field input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; padding: 14px 16px; color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.82rem; outline: none; transition: border-color 0.2s; }
+    .waitlist-field input:focus { border-color: var(--blue); }
+    .btn-waitlist { background: rgba(37,99,235,0.15); color: var(--blue-bright); font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 20px; border: 1px solid rgba(37,99,235,0.3); border-radius: 2px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .btn-waitlist:hover { background: rgba(37,99,235,0.25); }
+    .divider-text { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: rgba(168,187,212,0.3); font-size: 0.65rem; letter-spacing: 0.1em; }
+    .divider-text::before, .divider-text::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+
+    /* SUCCESS */
+    .success-icon { width: 56px; height: 56px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 28px; font-size: 1.4rem; }
+    .success-title { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: var(--success); }
+    .success-body { font-size: 0.8rem; color: var(--muted); line-height: 1.9; }
+    .next-steps { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .next-step { display: flex; gap: 14px; align-items: flex-start; padding: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 2px; }
+    .next-step-num { font-family: 'Syne', sans-serif; font-size: 0.7rem; font-weight: 700; color: var(--gold); min-width: 20px; margin-top: 1px; }
+    .next-step-text { font-size: 0.75rem; color: var(--muted); line-height: 1.7; }
+
+    /* HIDDEN */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      main { padding: 100px 16px 40px; }
+      .card { padding: 32px 24px; }
+      .options-grid.col2 { grid-template-columns: 1fr; }
+      .btn-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <nav>
+    <a href="https://tier6.simcolgroup.com" class="nav-logo">TIER<span>-6</span></a>
+    <a href="https://tier6.simcolgroup.com" class="nav-back">← Back to Overview</a>
+  </nav>
+
+  <main>
+    <div class="progress-wrap" id="progressWrap">
+      <div class="progress-label">
+        <span class="progress-step" id="progressLabel">Step 01 — Jurisdiction</span>
+        <span class="progress-count" id="progressCount">1 of 5</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+    </div>
+
+    <!-- STEP 1: JURISDICTION -->
+    <div class="card step active" id="step1">
+      <span class="step-tag">Step 01 — Jurisdictional Eligibility</span>
+      <h1 class="step-title">Where are you based?</h1>
+      <p class="step-sub">Tier-6 access is subject to jurisdictional and exchange availability. Please select your country of residence to confirm eligibility.</p>
+      <div class="field">
+        <label>Country of Residence</label>
+        <div class="select-wrap">
+          <select id="countrySelect">
+            <option value="">— Select country —</option>
+            <option value="AE">United Arab Emirates</option>
+            <option value="GB">United Kingdom</option>
+            <option value="NG">Nigeria</option>
+            <option value="GH">Ghana</option>
+            <option value="KE">Kenya</option>
+            <option value="ZA">South Africa</option>
+            <option value="SG">Singapore</option>
+            <option value="CA">Canada</option>
+            <option value="AU">Australia</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="NL">Netherlands</option>
+            <option value="CH">Switzerland</option>
+            <option value="US">United States</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" id="step1Next" disabled onclick="handleJurisdiction()">Continue →</button>
+      </div>
+      <p class="disclaimer">Tier-6 operates on Binance USDT-M Futures. Access may be restricted based on your country's regulatory environment.</p>
+    </div>
+
+    <!-- DECLINE: US -->
+    <div class="card step" id="stepDecline">
+      <div class="decline-icon">⚠</div>
+      <h2 class="decline-title">Not Yet Available in Your Region</h2>
+      <p class="decline-body">Thank you for your interest in Tier-6. Unfortunately, we currently operate exclusively on Binance Global, which is not available to residents of the United States due to regulatory requirements.<br><br>We are actively exploring US-compatible infrastructure and will notify you when access becomes available.</p>
+      <div class="waitlist-field">
+        <input type="email" id="waitlistEmail" placeholder="your@email.com" />
+        <button class="btn-waitlist" onclick="submitWaitlist()">Join Waitlist</button>
+      </div>
+      <p id="waitlistMsg" style="font-size:0.72rem;color:var(--success);display:none;margin-bottom:12px;">✓ You're on the list. We'll be in touch.</p>
+      <div class="divider-text">or</div>
+      <p style="font-size:0.75rem;color:var(--muted);line-height:1.8;">Know someone outside the US who might be interested? <a href="mailto:simon@simcolgroup.com" style="color:var(--blue-bright);text-decoration:none;">Send them our way →</a></p>
+    </div>
+
+    <!-- STEP 2: CLIENT TYPE -->
+    <div class="card step" id="step2">
+      <span class="step-tag">Step 02 — Client Classification</span>
+      <h1 class="step-title">How are you investing?</h1>
+      <p class="step-sub">This helps us tailor the onboarding process and documentation requirements.</p>
+      <div class="options-grid col2">
+        <label class="option-card" onclick="selectOption(this, 'clientType', 'individual')">
+          <input type="radio" name="clientType" value="individual" />
+          <div class="option-title">Individual</div>
+          <div class="option-desc">Personal account, sole decision-maker</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'clientType', 'corporate')">
+          <input type="radio" name="clientType" value="corporate" />
+          <div class="option-title">Corporate</div>
+          <div class="option-desc">Company or business entity</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'clientType', 'hnw')">
+          <input type="radio" name="clientType" value="hnw" />
+          <div class="option-title">Family Office / HNW</div>
+          <div class="option-desc">High-net-worth or family structure</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'clientType', 'institutional')">
+          <input type="radio" name="clientType" value="institutional" />
+          <div class="option-title">Institutional</div>
+          <div class="option-desc">Fund, DAO, or institutional vehicle</div>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
+        <button class="btn-primary" id="step2Next" disabled onclick="goToStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: CAPITAL -->
+    <div class="card step" id="step3">
+      <span class="step-tag">Step 03 — Capital Readiness</span>
+      <h1 class="step-title">Initial allocation range?</h1>
+      <p class="step-sub">Tier-6 requires a minimum of $5,000 USD. This helps us confirm fit and prioritise onboarding.</p>
+      <div class="options-grid">
+        <label class="option-card" onclick="selectOption(this, 'capital', 'below5k')">
+          <input type="radio" name="capital" value="below5k" />
+          <div class="option-title">Below $5,000</div>
+          <div class="option-desc">Below current minimum threshold</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'capital', '5k_50k')">
+          <input type="radio" name="capital" value="5k_50k" />
+          <div class="option-title">$5,000 — $50,000</div>
+          <div class="option-desc">Entry-level allocation</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'capital', '50k_250k')">
+          <input type="radio" name="capital" value="50k_250k" />
+          <div class="option-title">$50,000 — $250,000</div>
+          <div class="option-desc">Mid-tier allocation</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'capital', '250k_plus')">
+          <input type="radio" name="capital" value="250k_plus" />
+          <div class="option-title">$250,000+</div>
+          <div class="option-desc">Institutional-scale allocation</div>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
+        <button class="btn-primary" id="step3Next" disabled onclick="handleCapital()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- DECLINE: BELOW MIN -->
+    <div class="card step" id="stepDeclineCapital">
+      <div class="decline-icon">⚠</div>
+      <h2 class="decline-title">Below Minimum Threshold</h2>
+      <p class="decline-body">Tier-6 currently requires a minimum initial allocation of $5,000 USD to ensure the system can execute meaningfully across its position sizing model.<br><br>If your situation changes, we'd be glad to hear from you.</p>
+      <div class="waitlist-field">
+        <input type="email" id="waitlistEmailCapital" placeholder="your@email.com" />
+        <button class="btn-waitlist" onclick="submitWaitlistCapital()">Notify Me</button>
+      </div>
+      <p id="waitlistMsgCapital" style="font-size:0.72rem;color:var(--success);display:none;margin-bottom:12px;">✓ Noted. We'll reach out when conditions allow.</p>
+      <div style="margin-top:16px;">
+        <button class="btn-secondary" onclick="goToStep(3)" style="width:100%">← Revise Selection</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: PLATFORM -->
+    <div class="card step" id="step4">
+      <span class="step-tag">Step 04 — Platform Access</span>
+      <h1 class="step-title">Your exchange setup?</h1>
+      <p class="step-sub">Tier-6 operates exclusively on Binance Global USDT-M Futures. API access is trading-only — withdrawal permissions are never requested.</p>
+      <div class="options-grid">
+        <label class="option-card" onclick="selectOption(this, 'platform', 'binance_ready')">
+          <input type="radio" name="platform" value="binance_ready" />
+          <div class="option-title">Binance Global — Active</div>
+          <div class="option-desc">I have a funded Binance Global account</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'platform', 'binance_setup')">
+          <input type="radio" name="platform" value="binance_setup" />
+          <div class="option-title">Binance Global — Setup Needed</div>
+          <div class="option-desc">I need to open or fund a Binance account</div>
+        </label>
+        <label class="option-card" onclick="selectOption(this, 'platform', 'other_exchange')">
+          <input type="radio" name="platform" value="other_exchange" />
+          <div class="option-title">Different Exchange</div>
+          <div class="option-desc">I use a different platform currently</div>
+        </label>
+      </div>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
+        <button class="btn-primary" id="step4Next" disabled onclick="goToStep(5)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: INTENT + CONTACT -->
+    <div class="card step" id="step5">
+      <span class="step-tag">Step 05 — Intent & Contact</span>
+      <h1 class="step-title">Almost there.</h1>
+      <p class="step-sub">Tell us your timeline and how to reach you. We review every submission personally.</p>
+
+      <div style="margin-bottom:20px;">
+        <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Investment Timeline</p>
+        <div class="options-grid col2" style="margin-bottom:0;">
+          <label class="option-card" onclick="selectOption(this, 'timeline', 'immediate')">
+            <input type="radio" name="timeline" value="immediate" />
+            <div class="option-title">Ready Now</div>
+            <div class="option-desc">Immediate allocation intent</div>
+          </label>
+          <label class="option-card" onclick="selectOption(this, 'timeline', 'exploring')">
+            <input type="radio" name="timeline" value="exploring" />
+            <div class="option-title">Exploring</div>
+            <div class="option-desc">Researching options, 30–90 days</div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="contactName" placeholder="Your full name" />
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="contactEmail" placeholder="your@email.com" />
+      </div>
+      <div class="field">
+        <label>WhatsApp (optional)</label>
+        <input type="tel" id="contactPhone" placeholder="+1 234 567 8900" />
+      </div>
+      <div class="field">
+        <label>How did you hear about Tier-6? (optional)</label>
+        <input type="text" id="contactRef" placeholder="Instagram, referral, etc." />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goToStep(4)">← Back</button>
+        <button class="btn-primary" id="step5Submit" onclick="submitForm()">Submit Application →</button>
+      </div>
+      <p class="disclaimer">Your information is used solely to evaluate your application. We do not share data with third parties.</p>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="card step" id="stepSuccess">
+      <div class="success-icon">✓</div>
+      <h2 class="success-title">Application Received</h2>
+      <p class="success-body">Thank you. Your application has been submitted and is under review. Simon reviews every submission personally and will be in touch within 24–48 hours.</p>
+      <div class="next-steps">
+        <div class="next-step">
+          <span class="next-step-num">01</span>
+          <span class="next-step-text">Review the <a href="/tier6/Tier6_Executive_Summary_Commercial.pdf" style="color:var(--blue-bright);text-decoration:none;" target="_blank">Executive Summary</a> while you wait — it covers how Tier-6 works in detail.</span>
+        </div>
+        <div class="next-step">
+          <span class="next-step-num">02</span>
+          <span class="next-step-text">If you need a Binance account, start the verification process now — KYC typically takes 24–48 hours.</span>
+        </div>
+        <div class="next-step">
+          <span class="next-step-num">03</span>
+          <span class="next-step-text">Questions in the meantime? Reach us at <a href="mailto:simon@simcolgroup.com" style="color:var(--blue-bright);text-decoration:none;">simon@simcolgroup.com</a></span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const formData = { country: '', clientType: '', capital: '', platform: '', timeline: '' };
+
+    const stepLabels = ['Step 01 — Jurisdiction','Step 02 — Client Type','Step 03 — Capital','Step 04 — Platform','Step 05 — Contact'];
+    const stepProgress = [20, 40, 60, 80, 100];
+
+    function updateProgress(step) {
+      const idx = step - 1;
+      if (idx < 0 || idx >= stepLabels.length) return;
+      document.getElementById('progressLabel').textContent = stepLabels[idx];
+      document.getElementById('progressCount').textContent = step + ' of 5';
+      document.getElementById('progressFill').style.width = stepProgress[idx] + '%';
+    }
+
+    function showStep(id) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStep(n) {
+      showStep('step' + n);
+      updateProgress(n);
+    }
+
+    function hideProgress() {
+      document.getElementById('progressWrap').style.opacity = '0';
+      document.getElementById('progressWrap').style.pointerEvents = 'none';
+    }
+
+    // Step 1
+    document.getElementById('countrySelect').addEventListener('change', function() {
+      formData.country = this.value;
+      document.getElementById('step1Next').disabled = !this.value;
+    });
+
+    function handleJurisdiction() {
+      if (formData.country === 'US') {
+        hideProgress();
+        showStep('stepDecline');
+      } else {
+        goToStep(2);
+      }
+    }
+
+    // Option cards
+    function selectOption(el, field, value) {
+      const grid = el.closest('.options-grid, div');
+      document.querySelectorAll('[name="' + field + '"]').forEach(r => {
+        r.closest('.option-card').classList.remove('selected');
+      });
+      el.classList.add('selected');
+      formData[field] = value;
+
+      if (field === 'clientType') document.getElementById('step2Next').disabled = false;
+      if (field === 'capital') document.getElementById('step3Next').disabled = false;
+      if (field === 'platform') document.getElementById('step4Next').disabled = false;
+      if (field === 'timeline') checkStep5();
+    }
+
+    function checkStep5() {
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      document.getElementById('step5Submit').disabled = !(name && email && formData.timeline);
+    }
+
+    document.addEventListener('input', function(e) {
+      if (e.target.id === 'contactName' || e.target.id === 'contactEmail') checkStep5();
+    });
+
+    function handleCapital() {
+      if (formData.capital === 'below5k') {
+        hideProgress();
+        showStep('stepDeclineCapital');
+      } else {
+        goToStep(4);
+      }
+    }
+
+    // Waitlist
+    function submitWaitlist() {
+      const email = document.getElementById('waitlistEmail').value.trim();
+      if (!email) return;
+      fetch('https://formspree.io/f/xykbnqop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email, type: 'waitlist_us', country: 'US', _subject: 'Tier-6 US Waitlist' })
+      }).then(() => {
+        document.getElementById('waitlistMsg').style.display = 'block';
+        document.getElementById('waitlistEmail').value = '';
+      });
+    }
+
+    function submitWaitlistCapital() {
+      const email = document.getElementById('waitlistEmailCapital').value.trim();
+      if (!email) return;
+      fetch('https://formspree.io/f/xykbnqop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email, type: 'waitlist_capital', _subject: 'Tier-6 Capital Waitlist' })
+      }).then(() => {
+        document.getElementById('waitlistMsgCapital').style.display = 'block';
+        document.getElementById('waitlistEmailCapital').value = '';
+      });
+    }
+
+    // Final submit
+    function submitForm() {
+      const name = document.getElementById('contactName').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const phone = document.getElementById('contactPhone').value.trim();
+      const ref = document.getElementById('contactRef').value.trim();
+      if (!name || !email) return;
+
+      const btn = document.getElementById('step5Submit');
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+
+      fetch('https://formspree.io/f/xykbnqop', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name, email, phone, referral: ref,
+          country: formData.country,
+          client_type: formData.clientType,
+          capital: formData.capital,
+          platform: formData.platform,
+          timeline: formData.timeline,
+          _subject: 'Tier-6 Client Application — ' + name
+        })
+      }).then(r => {
+        if (r.ok) {
+          hideProgress();
+          showStep('stepSuccess');
+        } else {
+          btn.textContent = 'Submit Application →';
+          btn.disabled = false;
+          alert('Submission failed. Please try again or email simon@simcolgroup.com directly.');
+        }
+      }).catch(() => {
+        btn.textContent = 'Submit Application →';
+        btn.disabled = false;
+        alert('Network error. Please try again.');
+      });
+    }
+  </script>
+</body>
+</html>
